@@ -1,103 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Dr. Snehasis Banerjee</title>
+<meta charset="UTF-8">
+<title>Dr. Snehasis Banerjee</title>
+<link rel="icon" href="fevicon.ico">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: url('bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-        }
-
-        .overlay {
-            background: rgba(255, 255, 255, 0.88);
-            min-height: 100vh;
-            padding: 40px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: auto;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .header img {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #003366;
-        }
-
-        h1 {
-            color: #003366;
-            margin-bottom: 5px;
-        }
-
-        h2 {
-            color: #444;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 5px;
-            margin-top: 30px;
-        }
-
-        a {
-            color: #0066cc;
-            text-decoration: none;
-        }
-
-        ul, ol {
-            line-height: 1.7;
-        }
-
-        footer {
-            margin-top: 40px;
-            font-size: 14px;
-            color: #666;
-            text-align: center;
-        }
-    .college-image {
-    
-    top: 120px;
-    right: 20px;
-    width: 400px;
-    opacity: 1.0;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    
-}
-        .info-box {
-    background: #f4f8fc;
-    border-left: 5px solid #003366;
-    padding: 15px 20px;
-    margin-top: 25px;
-    border-radius: 6px;
-             opacity: 0.7;
+<style>
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: url('bg.jpg') no-repeat center fixed;
+    background-size: cover;
 }
 
-        .pub-item {
-    display: flex;
-    gap: 15px;
-    align-items: flex-start;
+.overlay {
+    background: rgba(255,255,255,0.88);
+    min-height: 100vh;
+    padding: 40px;
 }
 
-.pub-text {
-    flex: 1;
+.container {
+    max-width: 900px;
+    margin: auto;
 }
 
-.pub-image img {
-    width: 90px;          /* small thumbnail */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
 .navbar {
     background: #003366;
     padding: 10px 0;
@@ -113,59 +39,100 @@
     padding: 0;
 }
 
-.navbar ul li a {
+.navbar a {
     color: white;
     text-decoration: none;
     font-weight: 600;
 }
 
-.navbar ul li a:hover {
-    text-decoration: underline;
+.header {
+    display: flex;
+    gap: 25px;
+    align-items: center;
 }
 
-    </style>
+.header img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 4px solid #003366;
+    object-fit: cover;
+}
+
+h1 { color:#003366; }
+h2 {
+    color:#444;
+    border-bottom:2px solid #ddd;
+    padding-bottom:5px;
+    margin-top:30px;
+}
+
+.info-box {
+    background:#f4f8fc;
+    border-left:5px solid #003366;
+    padding:15px 20px;
+    margin-top:25px;
+    border-radius:6px;
+}
+
+.pub-item {
+    display:flex;
+    gap:15px;
+}
+
+.pub-image img {
+    width:90px;
+    border:1px solid #ccc;
+    border-radius:4px;
+}
+
+footer {
+    margin-top:40px;
+    text-align:center;
+    color:#666;
+}
+</style>
 </head>
 
 <body>
-    <img src="college.jpg" alt="College Campus" class="college-image">
-
 <div class="overlay">
-    <div class="container">
-<div class="navbar">
-    <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#discussion">Discussion</a></li>
-        <li><a href="#feedback">Feedback</a></li>
-    </ul>
-</div>
-<div id="home">
-        <div class="header">
-            <img src="picture.jpg" alt="Profile Photo">
-            <div>
-                <h1>Dr. Snehasis Banerjee</h1>
-                <p><b>Associate Professor of Chemistry</b></p>
-                 <p><b>WBES, Dept of Higher Education</b></p>
-                <link rel="icon" href="fevicon.ico">
-                <p><b>Hooghly Mohsin College</b></p>
-                <p>Computational Chemistry | DFT | TDDFT</p>
-            </div>
-        </div>
-        <div class="info-box">
-       <p><b>Previous Affiliations:</b><br>
-Joint DPI, OSD (University Branch), W.B.E.S, Bikash Bhavan, Dept. of Higher Education,Kolkata<br>
-Assistant Professor, Government College of Engineering & Leather Technology (GCELT), Salt Lake, Kolkata<br>
-Assistant Professor, Darjeeling Government College, Darjeeling
-</p>
-        </div>
+<div class="container">
 
-        <h2>Research Interests</h2>
-        <ul>
-            <li>Density Functional Theory (DFT)</li>
-            <li>Computational & Quantum Chemistry</li>
-            <li>Electronic Spectroscopy (TDDFT)</li>
-            <li>Reaction Mechanisms</li>
-        </ul>
+<div class="navbar">
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="gallery.html">Gallery</a></li>
+<li><a href="discussion.html">Discussion</a></li>
+<li><a href="feedback.html">Feedback</a></li>
+</ul>
+</div>
+
+<div class="header">
+<img src="picture.jpg">
+<div>
+<h1>Dr. Snehasis Banerjee</h1>
+<p><b>Associate Professor of Chemistry</b></p>
+<p>WBES, Dept. of Higher Education</p>
+<p>Hooghly Mohsin College</p>
+<p>Computational Chemistry | DFT | TDDFT</p>
+</div>
+</div>
+
+<div class="info-box">
+<b>Previous Affiliations:</b><br>
+Joint DPI, OSD (University Branch), Bikash Bhavan, Kolkata<br>
+Assistant Professor, GCELT, Salt Lake<br>
+Assistant Professor, Darjeeling Government College
+</div>
+
+<h2>Research Interests</h2>
+<ul>
+<li>Density Functional Theory</li>
+<li>Computational Chemistry</li>
+<li>TDDFT & Spectroscopy</li>
+<li>Reaction Mechanisms</li>
+</ul>
+
 
        <h2>Selected Publications (2013–Present)</h2>
 
@@ -336,39 +303,18 @@ Assistant Professor, Darjeeling Government College, Darjeeling
     <img src="gallery2.jpg" width="180">
 </div>
 
-        <h2>Profiles</h2>
-        <ul>
-            <li><a href="https://scholar.google.com/citations?user=7AvQqbcAAAAJ&hl=en">Google Scholar</a></li>
-            <li><a href="https://orcid.org/0000-0003-0888-5870">ORCID</a></li>
-            <li><a href="https://www.researchgate.net/profile/Snehasis-Banerjee-3?ev=hdr_xprf">ResearchGate</a></li>
-        </ul>
-        <h2>Book Published</h2>
-       <ul>
-           <li><a href="https://www.amazon.in/Chemistry-Class-English-Version-Semester-3/dp/B0FB8F4RT1/ref=sr_1_1?crid=NM3MAKOODIQ1&dib=eyJ2IjoiMSJ9.JChXQttPouKnEvwdmAm_Pw.FZ1XXenehE4T4Tb849lNs8hKhjKqc2KbR-RvcF3PnpQ&dib_tag=se&keywords=snehasis+banerjee+oriental+chemistry&qid=1765680261&sprefix=snehasis+banerjee+oriental+chemistry%2Caps%2C195&sr=8-1">Chemistry Class - XII (English Version) Semester</a></li>
-           </ul>
-       <h2 id="discussion">Discussion</h2>
-<div class="info-box">
-    <p>
-        This section is intended for academic discussion, student interaction,
-        and sharing thoughts on chemistry, research, and education.
-    </p>
+       <h2>Profiles</h2>
+<ul>
+<li><a href="https://scholar.google.com/">Google Scholar</a></li>
+<li><a href="https://orcid.org/">ORCID</a></li>
+<li><a href="https://researchgate.net/">ResearchGate</a></li>
+</ul>
+
+<footer>
+© 2025 Dr. Snehasis Banerjee
+</footer>
+
 </div>
-<h2 id="feedback">Feedback</h2>
-<div class="info-box">
-    <p>
-        Suggestions and feedback are welcome.<br>
-        Please email at <b>sbanchem@gmail.com</b>
-    </p>
-</div> 
-        <h2>Contact</h2>
-        <p>Email: sbanchem@gmail.com</p>
-
-        <footer>
-            © 2025 Dr. Snehasis Banerjee
-        </footer>
-
-    </div>
 </div>
 </body>
 </html>
-
