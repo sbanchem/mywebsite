@@ -98,6 +98,30 @@
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+.navbar {
+    background: #003366;
+    padding: 10px 0;
+    margin-bottom: 25px;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.navbar ul li a:hover {
+    text-decoration: underline;
+}
 
     </style>
 </head>
@@ -107,7 +131,15 @@
 
 <div class="overlay">
     <div class="container">
-
+<div class="navbar">
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#discussion">Discussion</a></li>
+        <li><a href="#feedback">Feedback</a></li>
+    </ul>
+</div>
+<div id="home">
         <div class="header">
             <img src="picture.jpg" alt="Profile Photo">
             <div>
@@ -297,7 +329,12 @@ Assistant Professor, Darjeeling Government College, Darjeeling
 
 
 <p><i>Full publication list available on Google Scholar.</i></p>
-
+<h2 id="gallery">Gallery</h2>
+<div class="info-box">
+    <p>Academic activities, conferences, lectures, and campus moments.</p>
+    <img src="gallery1.jpg" width="180">
+    <img src="gallery2.jpg" width="180">
+</div>
 
         <h2>Profiles</h2>
         <ul>
@@ -309,7 +346,20 @@ Assistant Professor, Darjeeling Government College, Darjeeling
        <ul>
            <li><a href="https://www.amazon.in/Chemistry-Class-English-Version-Semester-3/dp/B0FB8F4RT1/ref=sr_1_1?crid=NM3MAKOODIQ1&dib=eyJ2IjoiMSJ9.JChXQttPouKnEvwdmAm_Pw.FZ1XXenehE4T4Tb849lNs8hKhjKqc2KbR-RvcF3PnpQ&dib_tag=se&keywords=snehasis+banerjee+oriental+chemistry&qid=1765680261&sprefix=snehasis+banerjee+oriental+chemistry%2Caps%2C195&sr=8-1">Chemistry Class - XII (English Version) Semester</a></li>
            </ul>
-        
+       <h2 id="discussion">Discussion</h2>
+<div class="info-box">
+    <p>
+        This section is intended for academic discussion, student interaction,
+        and sharing thoughts on chemistry, research, and education.
+    </p>
+</div>
+<h2 id="feedback">Feedback</h2>
+<div class="info-box">
+    <p>
+        Suggestions and feedback are welcome.<br>
+        Please email at <b>sbanchem@gmail.com</b>
+    </p>
+</div> 
         <h2>Contact</h2>
         <p>Email: sbanchem@gmail.com</p>
 
