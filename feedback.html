@@ -1,23 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Feedback Form</title>
+<meta charset="UTF-8">
+<title>Feedback | Dr. Snehasis Banerjee</title>
+<link rel="icon" href="fevicon.ico">
+
+<style>
+/* === SAME CSS AS MAIN PAGE === */
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: url('bg.jpg') no-repeat center fixed;
+    background-size: cover;
+}
+.college-image {
+    display: block;
+    margin: 0px auto;
+    width: 500px;
+    opacity: 0.85;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+.overlay {
+    background: rgba(255,255,255,0.88);
+    min-height: 100vh;
+    padding: 40px;
+}
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+.navbar {
+    background: #003366;
+    padding: 10px 0;
+    margin-bottom: 25px;
+}
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+h2 {
+    color:#444;
+    border-bottom:2px solid #ddd;
+    padding-bottom:5px;
+    margin-top:30px;
+}
+.info-box {
+    background:#f4f8fc;
+    border-left:5px solid #003366;
+    padding:20px;
+    margin-top:25px;
+    border-radius:6px;
+}
+input, textarea, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    font-size: 15px;
+}
+button {
+    background: #003366;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background: #0055aa;
+}
+</style>
 </head>
+
 <body>
-    <h2>Feedback Form</h2>
-    <form action="mailto:sbanchem@gmail.com" method="post" enctype="text/plain">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="Name"><br><br>
 
-        <label for="email">Email:</label><br>
-        <input type="text" id="email" name="Email"><br><br>
+<img src="college.jpg" class="college-image">
 
-        <label for="message">Feedback:</label><br>
-        <textarea id="message" name="Message" rows="5" cols="40"></textarea><br><br>
+<div class="overlay">
+<div class="container">
 
-        <input type="submit" value="Send Feedback">
-        <input type="reset" value="Clear">
-    </form>
+<!-- NAVBAR -->
+<div class="navbar">
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="gallery.html">Gallery</a></li>
+<li><a href="discussion.html">Discussion</a></li>
+<li><a href="feedback.html">Feedback</a></li>
+</ul>
+</div>
+
+<!-- FEEDBACK CONTENT -->
+<h2>Feedback</h2>
+
+<div class="info-box">
+<p>Your comments, suggestions, or academic queries are welcome.</p>
+
+<form action="https://formsubmit.co/sbanchem@gmail.com" method="POST">
+
+<input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="_subject" value="Website Feedback">
+<input type="hidden" name="_next" value="thankyou.html">
+
+<label>Name</label>
+<input type="text" name="Name" required>
+
+<label>Email</label>
+<input type="email" name="Email" required>
+
+<label>Message</label>
+<textarea name="Message" rows="5" required></textarea>
+
+<br>
+<button type="submit">Send Feedback</button>
+
+</form>
+</div>
+
+<footer style="margin-top:40px; text-align:center; color:#666;">
+© 2025 Dr. Snehasis Banerjee
+</footer>
+
+</div>
+</div>
+
 </body>
 </html>
+
 
