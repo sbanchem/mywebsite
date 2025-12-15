@@ -1,39 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Feedback</title>
-<link rel="icon" href="fevicon.ico">
-<style>
-body { font-family:Segoe UI; background:url('bg.jpg') center fixed; background-size:cover;}
-.overlay { background:rgba(255,255,255,0.88); min-height:100vh; padding:40px;}
-.container { max-width:900px; margin:auto;}
-.navbar { background:#003366; padding:10px 0; margin-bottom:25px;}
-.navbar ul { display:flex; justify-content:center; gap:30px; list-style:none;}
-.navbar a { color:white; font-weight:600; text-decoration:none;}
-</style>
+    <title>Feedback Form</title>
 </head>
-
 <body>
-<div class="overlay">
-<div class="container">
+    <h2>Feedback Form</h2>
+    <form action="mailto:sbanchem@gmail.com" method="post" enctype="text/plain">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="Name"><br><br>
 
-<div class="navbar">
-<ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="gallery.html">Gallery</a></li>
-<li><a href="discussion.html">Discussion</a></li>
-<li><a href="feedback.html">Feedback</a></li>
-</ul>
-</div>
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="Email"><br><br>
 
-<h2>Feedback</h2>
-<p>
-Suggestions are welcome.<br>
-Email: <b>sbanchem@gmail.com</b>
-</p>
+        <label for="message">Feedback:</label><br>
+        <textarea id="message" name="Message" rows="5" cols="40"></textarea><br><br>
 
-</div>
-</div>
+        <input type="submit" value="Send Feedback">
+        <input type="reset" value="Clear">
+    </form>
 </body>
 </html>
+
