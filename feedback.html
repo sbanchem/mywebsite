@@ -105,6 +105,30 @@ button:hover {
 <form action="https://formsubmit.co/sbanchem@gmail.com" method="POST">
 <form action="https://formsubmit.co/sbanchem@gmail.com" method="POST">
 
+  <!-- Prevent spam -->
+  <input type="hidden" name="_captcha" value="false">
+
+  <!-- Optional subject -->
+  <input type="hidden" name="_subject" value="Website Feedback">
+
+  <!-- Redirect after submission -->
+  <input type="hidden" name="_next" value="thankyou.html">
+
+  <label>Name</label>
+  <input type="text" name="Name" required>
+
+  <label>Email</label>
+  <input type="email" name="Email" required>
+
+  <label>Message</label>
+  <textarea name="Message" rows="5" required></textarea>
+
+  <br>
+  <button type="submit">Send Feedback</button>
+
+</form>
+
+
 
 <input type="hidden" name="_captcha" value="false">
 <input type="hidden" name="_subject" value="Website Feedback">
