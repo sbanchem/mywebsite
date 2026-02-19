@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>UVplotter Guide | Dr. Snehasis Banerjee</title>
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f0f2f5;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .header-section {
+        text-align: center;
+        background: #003366;
+        color: white;
+        padding: 40px 20px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .header-section h1 { margin: 0; font-size: 2.5em; }
+    .header-section p { font-size: 1.1em; opacity: 0.9; }
+
+    .app-link {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 25px;
+        background: #28a745;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 50px;
+        transition: transform 0.2s;
+    }
+
+    .app-link:hover { transform: scale(1.05); background: #218838; }
+
+    .step-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        border-top: 5px solid #003366;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .card h3 {
+        color: #003366;
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .step-number {
+        background: #003366;
+        color: white;
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 0.8em;
+    }
+
+    .pro-tip {
+        margin-top: 30px;
+        background: #fff3cd;
+        border-left: 6px solid #ffc107;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .pro-tip b { color: #856404; }
+
+    footer {
+        text-align: center;
+        margin-top: 50px;
+        color: #777;
+        font-size: 0.9em;
+    }
+
+    ul { padding-left: 20px; }
+    li { margin-bottom: 10px; }
+
+    @media (max-width: 600px) {
+        .step-grid { grid-template-columns: 1fr; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-section">
+        <h1>UVplotter</h1>
+        <p>A Python-powered web tool for Chemistry Researchers to visualize absorption spectra instantly.</p>
+        <a href="https://uvplotter.streamlit.app/" class="app-link" target="_blank">🚀 Launch UVplotter App</a>
+    </div>
+
+    <h2 style="text-align: center; color: #003366;">🔬 How to use UVplotter (4 Easy Steps)</h2>
+    [Image of UV-Vis absorption spectrum graph]
+    <div class="step-grid">
+        <div class="card">
+            <h3><span class="step-number">1</span> Prepare & Download</h3>
+            <p>Click the <b>"Download CSV/Excel"</b> button on the home screen to see the required data format.</p>
+            <ul>
+                <li>Column 1: Wavelength (nm)</li>
+                <li>Column 2: Absorption</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="step-number">2</span> Upload Your Data</h3>
+            <p>In the left sidebar, select the number of complexes you want to plot (1 to 4) and upload your <b>.csv</b> or <b>.xlsx</b> file.</p>
+        </div>
+
+        <div class="card">
+            <h3><span class="step-number">3</span> Customize Your Spectra</h3>
+            <ul>
+                <li><b>Scale:</b> Adjust wavelength and absorption ranges.</li>
+                <li><b>Style:</b> Switch between Scatter points or Polyfit Lines.</li>
+                <li><b>Labels:</b> Set your own plot titles and axis names.</li>
+                <li><b>Color:</b> Pick a background color for your graph.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="step-number">4</span> Save & Export</h3>
+            <p><b>Watermark:</b> Enter the access password to remove the background text.</p>
+            <p><b>Export:</b> Click "Save Plot" to get a high-resolution <b>1200 DPI</b> image (JPG) ready for publication.</p>
+        </div>
+    </div>
+
+    <div class="pro-tip">
+        <b>💡 Pro-Tip for Researchers:</b><br>
+        If you are comparing multiple samples, check the <b>"Normalize Data"</b> box in the sidebar to scale all peaks to 1.0. This makes it much easier to compare spectral shapes and shifts.
+    </div>
+
+    <footer>
+        &copy; 2026 Dr. Snehasis Banerjee | Developed with Streamlit & Python
+    </footer>
+</div>
+
+</body>
+</html>
