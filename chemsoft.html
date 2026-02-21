@@ -124,6 +124,20 @@
     @media (max-width: 600px) {
         .step-grid { grid-template-columns: 1fr; }
     }
+    .home-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #003366; /* Matching your theme color */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.home-btn:hover {
+    background-color: #002244;
+}
 </style>
 </head>
 <body>
@@ -181,9 +195,10 @@
         &copy; 2026 Dr. Snehasis Banerjee | Developed with Streamlit & Python
     </footer>
 </div>
-<a href="index.html">Back to Home</a>
+<a href="index.html" class="home-btn">🏠 Home</a>
 </body>
 </html>
+
 
 
 
