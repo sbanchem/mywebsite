@@ -23,6 +23,23 @@ body {
     box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 </style>
+    .gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 images per row */
+    gap: 20px;
+}
+
+.gallery figure {
+    text-align: center;
+}
+
+.gallery img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
 </head>
 
 <body>
