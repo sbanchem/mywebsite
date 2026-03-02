@@ -1,0 +1,35 @@
+<div class="gallery" id="gallery"></div>
+
+<script>
+const imageFolder = "images/";
+const images = [
+    "BGBS.jpg",
+    "1.jpg",
+    "BU_chemistry.jpg",
+    "standing_committee.jpg",
+    "bio_phys.png",
+    "jms.png",
+    "comchem.jpg"
+];
+
+const gallery = document.getElementById("gallery");
+
+images.forEach(file => {
+    const figure = document.createElement("figure");
+
+    const link = document.createElement("a");
+    link.href = imageFolder + file;
+    link.target = "_blank";
+
+    const img = document.createElement("img");
+    img.src = imageFolder + file;
+
+    const caption = document.createElement("figcaption");
+    caption.innerText = file.split('.')[0];
+
+    link.appendChild(img);
+    figure.appendChild(link);
+    figure.appendChild(caption);
+    gallery.appendChild(figure);
+});
+</script>
