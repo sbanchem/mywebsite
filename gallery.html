@@ -16,34 +16,39 @@ body {
 .navbar { background:#003366; padding:10px 0; margin-bottom:25px;}
 .navbar ul { display:flex; justify-content:center; gap:30px; list-style:none; padding:0;}
 .navbar a { color:white; font-weight:600; text-decoration:none;}
+
 .gallery img {
-    width: 150%;
+    width: 100%;   /* FIXED (not 150%) */
     height: 200px;
     object-fit: cover;
     border-radius: 6px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
-    .gallery {
+
+.gallery {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 4 images per row */
-    gap: 50px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
 }
 
 .gallery figure {
     text-align: center;
-}
-
-figcaption {
-  text-align: center;
-figure {
-  text-align: center;
+    margin: 0;
 }
 
 figure img {
-  display: block;
-  margin: 0 auto;
+    display: block;
+    margin: 0 auto;
 }
-}
+
+figcaption {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+}	
+
 </style>
     
 </head>
