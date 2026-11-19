@@ -1680,6 +1680,7 @@
         if (!state.isTop2DView) {
           const blinkAlpha = 0.25 + 0.75 * Math.abs(Math.sin(now * 0.015));
 		  const trailColor = `rgba(220, 38, 38, ${blinkAlpha.toFixed(2)})`;
+		  draw3DPolyline(anim.trailPts, W, H, trailColor, 2.4, [5, 4]);
           draw3DPolyline([curPos, eqPos], W, H, curColor, 1.8);
           draw3DPolyline([eqPos, polePos], W, H, curColor, 1.1, [4, 4]);
 
