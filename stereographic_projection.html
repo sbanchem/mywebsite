@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3D Stereographic Projection & Chemical Point Group </title>
+  <title>3D Stereographic Projection & Chemical Point Group Lab</title>
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -252,23 +252,89 @@
       background: #0d9488;
       display: inline-block;
     }
-    .status-card {
-      background: rgba(15, 23, 42, 0.92);
-      color: #f1f5f9;
-      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.18);
-      border-radius: 12px;
-      padding: 8px 14px;
-      font-size: 12px;
+    .bottom-left-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
       pointer-events: auto;
+    }
+    .pp-photo-card {
+      width: 100px;
+      height: 125px;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1.5px solid #94a3b8;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .pp-photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .pp-photo-placeholder {
+      display: none;
+      text-align: center;
+      font-size: 9px;
+      font-weight: 700;
+      color: #475569;
+      line-height: 1.25;
+      padding: 4px;
+    }
+    .coffee-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      background: #ffdd00;
+      color: #0f172a;
+      border: 1px solid #eab308;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 2px 5px rgba(15, 23, 42, 0.14);
+      transition: transform 0.12s, background 0.15s;
+    }
+    .coffee-link:hover {
+      background: #facc15;
+      transform: translateY(-1px);
+    }
+    .status-card {
+      background: rgba(15, 23, 42, 0.94);
+      color: #f1f5f9;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 11px;
+    }
+    .status-head {
+      display: flex;
+      justify-content: space-between;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 10px;
+      margin-bottom: 4px;
     }
     .status-op {
       color: #34d399;
       font-weight: 600;
+      line-height: 1.4;
     }
     .status-coords {
       color: #cbd5e1;
       font-size: 11px;
-      margin-top: 2px;
+      margin-top: 3px;
+      line-height: 1.4;
     }
 
     /* RIGHT SIDEBAR */
@@ -494,59 +560,54 @@
       font-weight: 700;
       box-shadow: 0 0 0 2px #93c5fd;
     }
-
+    .op-btn.result-op {
+      background: #059669 !important;
+      border-color: #047857 !important;
+      color: #ffffff !important;
+      font-weight: 700;
+      box-shadow: 0 0 0 2px #6ee7b7;
+    }
+	/* FOOTER */
+	footer {
+	  background: #0f172a;
+	  color: #e2e8f0;
+	  border-top: 1px solid #1e293b;
+	  padding: 6px 0;
+	  font-size: 12px;
+	  letter-spacing: 0.02em;
+	  flex-shrink: 0;
+	  z-index: 30;
+	  overflow: hidden;
+	  white-space: nowrap;
+	}
+	.footer-marquee {
+	  display: inline-block;
+	  padding-left: 100%;
+	  animation: scrollFooter 18s linear infinite;
+	}
+	footer:hover .footer-marquee {
+	  animation-play-state: paused;
+	}
+	@keyframes scrollFooter {
+	  0% { transform: translateX(0); }
+	  100% { transform: translateX(-100%); }
+	}
+	footer .author {
+	  font-weight: 600;
+	  color: #ffffff;
+	}
+	footer .sep {
+	  margin: 0 8px;
+	  color: #64748b;
+	}
+		}
     /* LOG BOX */
-    .log-box {
-      background: #0f172a;
-      color: #e2e8f0;
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 11px;
-    }
-    .log-head {
-      display: flex;
-      justify-content: space-between;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      font-size: 10px;
-      margin-bottom: 5px;
-    }
-    .log-list {
-      max-height: 92px;
-      overflow-y: auto;
-      color: #6ee7b7;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    /* FOOTER */
-    footer {
-      background: #0f172a;
-      color: #e2e8f0;
-      border-top: 1px solid #1e293b;
-      padding: 6px 16px;
-      text-align: center;
-      font-size: 12px;
-      letter-spacing: 0.02em;
-      flex-shrink: 0;
-      z-index: 30;
-    }
-    footer .author {
-      font-weight: 600;
-      color: #ffffff;
-    }
-    footer .sep {
-      margin: 0 8px;
-      color: #64748b;
-    }
-
     @media print {
       body {
         display: none !important;
       }
     }
+	
   </style>
 </head>
 <body>
@@ -558,15 +619,12 @@
         <div class="top-overlay">
           <div class="title-card">
             <div class="title-row">
-              <!--<span class="dot-blue"></span> -->
-              <h1>Stereographic Projection &amp; Point Group </br>
-			  by Snehasis Banerjee</h1>
+              <span class="dot-blue"></span>
+              <h1>Stereographic Projection &amp; Point Group Lab</h1>
             </div>
-            
-			<p class="subtitle">
+            <p class="subtitle">
               Upper Hemisphere (<strong style="color:#2563eb">+z Blue &bull;</strong>) &harr; Lower (<strong style="color:#dc2626">&minus;z Red &#9675;</strong>) | Overlap (<strong style="color:#6d28d9">&#8857;</strong>)
             </p>
-			
           </div>
 
           <div class="camera-bar">
@@ -585,16 +643,25 @@
         </div>
 
         <div class="bottom-overlay">
+          <div class="bottom-left-stack">
+            <div class="pp-photo-card" title="Dr Snehasis Banerjee">
+              <img src="./snehasis_pp.jpg" alt="Dr Snehasis Banerjee" onerror="this.style.display='none'; document.getElementById('ppPhotoFallback').style.display='block';" />
+              <div id="ppPhotoFallback" class="pp-photo-placeholder">
+                ./pp_photo.jpg
+              </div>
+            </div>
+
+            <a id="buyMeCoffeeLink" href="https://www.buymeacoffee.com/" target="_blank" rel="noopener noreferrer" class="coffee-link">
+              <span>&#9749;</span>
+              <span>Buy me a coffee</span>
+            </a>
+          </div>
+
           <div class="legend-card">
             <span class="legend-item"><span class="swatch-blue"></span> +z Upper (&bull; Blue)</span>
             <span class="legend-item"><span class="swatch-red"></span> &minus;z Lower (&#9675; Red)</span>
             <span class="legend-item"><span class="swatch-oval"></span> C<sub>2</sub> / C<sub>2</sub>&prime; Oval</span>
             <span class="legend-item"><span class="swatch-line"></span> &sigma; Plane / C<sub>n</sub> Axis</span>
-          </div>
-
-          <div class="status-card mono">
-            <div id="statusOp" class="status-op">Ready — Select a Point Group or Place a Point</div>
-            <div id="statusCoords" class="status-coords">Active (+z Blue): (&theta;=45&deg;, &phi;=25&deg;) | Equator: (0.64, 0.30)</div>
           </div>
         </div>
       </div>
@@ -712,37 +779,38 @@
           <div class="panel-box panel-white">
             <div class="panel-head">
               <span class="panel-title">3. Group Operations (<span id="activeGroupOpsTitle" style="color:#1d4ed8">C2v</span>)</span>
-              <span class="hint-tag">Chain / Re-click Undo</span>
+              <span class="hint-tag">Blue: Chain | Green: Product</span>
             </div>
 
             <p class="ops-help">
-              Click operations in sequence (e.g., <span class="mono"><strong>C3 &rarr; &sigma;v</strong></span>). Active operations stay <strong>blue</strong> and show the resulting point; click a blue button again to undo it.
+              Click operations in sequence (e.g., <span class="mono"><strong>C3 &rarr; &sigma;v</strong></span>). Active operations stay <strong>blue</strong>, the combined <strong>result operation turns green</strong>, and re-clicking undoes a step.
             </p>
 
             <div id="dynamicOpsContainer" class="ops-grid"></div>
           </div>
 
           <!-- OPERATION LOG -->
-          <div class="log-box mono">
-            <div class="log-head">
-              <span>Operation &amp; Hemisphere Log</span>
+          <!-- SEQUENCE / COORDINATES STATUS (MOVED HERE) -->
+          <div class="status-card mono">
+            <div class="status-head">
+              <span>Active Sequence &amp; Coordinates</span>
               <span>Points: <strong id="pointCountBadge" style="color:#ffffff">4</strong></span>
             </div>
-            <div id="opLogList" class="log-list">
-              <div>1. Selected C2v (Central C2 Oval).</div>
-            </div>
+            <div id="statusOp" class="status-op">Ready — Select a Point Group or Place a Point</div>
+            <div id="statusCoords" class="status-coords">Active (+z Blue): (&theta;=45&deg;, &phi;=25&deg;) | Equator: (0.37, 0.17)</div>
           </div>
         </div>
       </aside>
     </div>
 
-    <!-- FOOTER -->
-    <footer>
-      <span class="author">created by Dr Snehasis Banerjee</span>
-      <span class="sep">|</span>
-      <span>&copy; Snehasis Banerjee, 2026</span>
-    </footer>
+   <!-- FOOTER -->
+	<footer>
+  <div class="footer-marquee">
+    <span class="author">created by Dr Snehasis Banerjee</span>
+    <span class="sep">|</span>
+    <span>&copy; Snehasis Banerjee, 2026</span>
   </div>
+	</footer>
 
   <script>
     // =========================================================================
@@ -964,17 +1032,17 @@
       D5h: { name: "D5h", desc: "E, C5..C5⁴, S5..S5⁹, five C2', σh, five σv.", order: 20, n: 5, dihedral: true, sigmaH: true, sigmaV: 5, polySides: 5, polyLabel: "Pentagon + C2' Ovals", ops: [OP_E, ...makeCnOps(5), ...makeSnOps(5, false), ...makeC2PrimeOps(5, 0), OP_SIGMA_H, ...makeSigmaVOps(5, 0, "σv")] },
       D6h: { name: "D6h", desc: "E, C6..C6⁵, S3, S6, S6⁵, S3², six C2', i, σh, six vertical σ (3 σv + 3 σd).", order: 24, n: 6, dihedral: true, sigmaH: true, sigmaV: 6, inv: true, polySides: 6, polyLabel: "Hexagon + C2' Ovals", ops: [OP_E, ...makeCnOps(6), ...makeSnOps(6, true), ...makeC2PrimeOps(6, 0), OP_INV, OP_SIGMA_H, ...makeSigmaVOps(6, 0, "σv/d")] },
 
-      D2d: { name: "D2d", desc: "E, C2, S4, S4³, two perpendicular C2', two σd.", order: 8, n: 2, dihedral: true, sigmaV: 2, sigmaOffset: Math.PI / 4, improper: 4, polySides: 4, polyLabel: "Square + C2' Ovals", ops: [OP_E, ...makeCnOps(2), ...makeSnOps(4, true), ...makeC2PrimeOps(2, 0), ...makeSigmaVOps(2, Math.PI / 4, "σd")] },
-      D3d: { name: "D3d", desc: "E, C3, C3², S6, S6⁵, three C2', i, three σd.", order: 12, n: 3, dihedral: true, sigmaV: 3, sigmaOffset: Math.PI / 6, inv: true, improper: 6, polySides: 6, polyLabel: "Hexagon + C2' Ovals", ops: [OP_E, ...makeCnOps(3), ...makeSnOps(6, true), ...makeC2PrimeOps(3, 0), OP_INV, ...makeSigmaVOps(3, Math.PI / 6, "σd")] },
-      D4d: { name: "D4d", desc: "E, C4, C2, C4³, S8, S8³, S8⁵, S8⁷, four C2', four σd.", order: 16, n: 4, dihedral: true, sigmaV: 4, sigmaOffset: Math.PI / 8, improper: 8, polySides: 8, polyLabel: "Octagon + C2' Ovals", ops: [OP_E, ...makeCnOps(4), ...makeSnOps(8, true), ...makeC2PrimeOps(4, 0), ...makeSigmaVOps(4, Math.PI / 8, "σd")] },
-      D5d: { name: "D5d", desc: "E, C5..C5⁴, S10, S10³, S10⁷, S10⁹, five C2', i, five σd.", order: 20, n: 5, dihedral: true, sigmaV: 5, sigmaOffset: Math.PI / 10, inv: true, improper: 10, polySides: 10, polyLabel: "Decagon + C2' Ovals", ops: [OP_E, ...makeCnOps(5), ...makeSnOps(10, true), ...makeC2PrimeOps(5, 0), OP_INV, ...makeSigmaVOps(5, Math.PI / 10, "σd")] },
-      D6d: { name: "D6d", desc: "E, C6..C6⁵, S12, S12³, S12⁵, S12⁷, S12⁹, S12¹¹, six C2', six σd.", order: 24, n: 6, dihedral: true, sigmaV: 6, sigmaOffset: Math.PI / 12, improper: 12, polySides: 12, polyLabel: "12-gon + C2' Ovals", ops: [OP_E, ...makeCnOps(6), ...makeSnOps(12, true), ...makeC2PrimeOps(6, 0), ...makeSigmaVOps(6, Math.PI / 12, "σd")] },
+      D2d: { name: "D2d", desc: "E, C2, S4, S4³, two perpendicular C2', two σd.", order: 8, n: 2, dihedral: true, sigmaV: 2, sigmaOffset: Math.PI / 4, improper: 4, polySides: 4, innerSides: 2, polyLabel: "C2 Oval in S4 Square + C2'", ops: [OP_E, ...makeCnOps(2), ...makeSnOps(4, true), ...makeC2PrimeOps(2, 0), ...makeSigmaVOps(2, Math.PI / 4, "σd")] },
+      D3d: { name: "D3d", desc: "E, C3, C3², S6, S6⁵, three C2', i, three σd.", order: 12, n: 3, dihedral: true, sigmaV: 3, sigmaOffset: Math.PI / 6, inv: true, improper: 6, polySides: 6, innerSides: 3, polyLabel: "Triangle in S6 Hexagon + C2'", ops: [OP_E, ...makeCnOps(3), ...makeSnOps(6, true), ...makeC2PrimeOps(3, 0), OP_INV, ...makeSigmaVOps(3, Math.PI / 6, "σd")] },
+      D4d: { name: "D4d", desc: "E, C4, C2, C4³, S8, S8³, S8⁵, S8⁷, four C2', four σd.", order: 16, n: 4, dihedral: true, sigmaV: 4, sigmaOffset: Math.PI / 8, improper: 8, polySides: 8, innerSides: 4, polyLabel: "Square in S8 Octagon + C2'", ops: [OP_E, ...makeCnOps(4), ...makeSnOps(8, true), ...makeC2PrimeOps(4, 0), ...makeSigmaVOps(4, Math.PI / 8, "σd")] },
+      D5d: { name: "D5d", desc: "E, C5..C5⁴, S10, S10³, S10⁷, S10⁹, five C2', i, five σd.", order: 20, n: 5, dihedral: true, sigmaV: 5, sigmaOffset: Math.PI / 10, inv: true, improper: 10, polySides: 10, innerSides: 5, polyLabel: "Pentagon in S10 Decagon + C2'", ops: [OP_E, ...makeCnOps(5), ...makeSnOps(10, true), ...makeC2PrimeOps(5, 0), OP_INV, ...makeSigmaVOps(5, Math.PI / 10, "σd")] },
+      D6d: { name: "D6d", desc: "E, C6..C6⁵, S12, S12³, S12⁵, S12⁷, S12⁹, S12¹¹, six C2', six σd.", order: 24, n: 6, dihedral: true, sigmaV: 6, sigmaOffset: Math.PI / 12, improper: 12, polySides: 12, innerSides: 6, polyLabel: "Hexagon in S12 12-gon + C2'", ops: [OP_E, ...makeCnOps(6), ...makeSnOps(12, true), ...makeC2PrimeOps(6, 0), ...makeSigmaVOps(6, Math.PI / 12, "σd")] },
 
-      S4:  { name: "S4", desc: "E, C2, S4, S4³.", order: 4, n: 2, improper: 4, polySides: 4, polyLabel: "Equatorial Square", ops: [OP_E, ...makeCnOps(2), ...makeSnOps(4, true)] },
-      S6:  { name: "S6", desc: "E, C3, C3², S6, S6⁵, i.", order: 6, n: 3, improper: 6, inv: true, polySides: 6, polyLabel: "Equatorial Hexagon", ops: [OP_E, ...makeCnOps(3), ...makeSnOps(6, true), OP_INV] },
-      S8:  { name: "S8", desc: "E, C4, C2, C4³, S8, S8³, S8⁵, S8⁷.", order: 8, n: 4, improper: 8, polySides: 8, polyLabel: "Equatorial Octagon", ops: [OP_E, ...makeCnOps(4), ...makeSnOps(8, true)] },
+      S4:  { name: "S4", desc: "E, C2, S4, S4³.", order: 4, n: 2, improper: 4, polySides: 4, innerSides: 2, polyLabel: "C2 Oval in S4 Square", ops: [OP_E, ...makeCnOps(2), ...makeSnOps(4, true)] },
+      S6:  { name: "S6", desc: "E, C3, C3², S6, S6⁵, i.", order: 6, n: 3, improper: 6, inv: true, polySides: 6, innerSides: 3, polyLabel: "Triangle in S6 Hexagon", ops: [OP_E, ...makeCnOps(3), ...makeSnOps(6, true), OP_INV] },
+      S8:  { name: "S8", desc: "E, C4, C2, C4³, S8, S8³, S8⁵, S8⁷.", order: 8, n: 4, improper: 8, polySides: 8, innerSides: 4, polyLabel: "Square in S8 Octagon", ops: [OP_E, ...makeCnOps(4), ...makeSnOps(8, true)] },
 
-      Td:  { name: "Td", desc: "E, four C3-C3², three C2-S4-S4³, six σd.", order: 24, cubic: "Td", n: 2, sigmaV: 2, sigmaOffset: Math.PI / 4, polySides: 4, polyLabel: "Tetrahedral Square", ops: [OP_E, ...makeCnOps(3), ...makeCnOps(2), ...makeSnOps(4, true), ...makeC2PrimeOps(2, 0), ...makeSigmaVOps(2, Math.PI / 4, "σd")] },
+      Td:  { name: "Td", desc: "E, four C3-C3², three C2-S4-S4³, six σd.", order: 24, cubic: "Td", n: 2, sigmaV: 2, sigmaOffset: Math.PI / 4, polySides: 4, innerSides: 2, polyLabel: "C2 Oval in S4 Square", ops: [OP_E, ...makeCnOps(3), ...makeCnOps(2), ...makeSnOps(4, true), ...makeC2PrimeOps(2, 0), ...makeSigmaVOps(2, Math.PI / 4, "σd")] },
       Oh:  { name: "Oh", desc: "E, four C3-C3²-S6-S6⁵, three C4-C2-C4³-S4-S4³, six C2', i, three σh, six σd.", order: 48, cubic: "Oh", n: 4, sigmaH: true, sigmaV: 4, inv: true, polySides: 4, polyLabel: "Octahedral Square", ops: [OP_E, ...makeCnOps(4), ...makeSnOps(4, true), ...makeCnOps(3), ...makeSnOps(6, true), ...makeC2PrimeOps(4, 0), OP_INV, OP_SIGMA_H, ...makeSigmaVOps(4, 0, "σv/d")] }
     };
 
@@ -1136,20 +1204,10 @@
       points: [],
       opChain: [],
       autoRevolve: false,
-      clickPlaceMode: false,
-      opLogs: ["Selected C2v (Central C2 Oval)."]
+      clickPlaceMode: false
     };
 
     let activeAnimations = [];
-
-    function addLogEntry(msg) {
-      state.opLogs.unshift(msg);
-      if (state.opLogs.length > 18) state.opLogs.pop();
-      const logEl = document.getElementById("opLogList");
-      logEl.innerHTML = state.opLogs
-        .map((item, idx) => `<div>${state.opLogs.length - idx}. ${item}</div>`)
-        .join("");
-    }
 
     // Project 3D world point (Z-up) to 2D canvas coordinates
     function project3D(pt, width, height) {
@@ -1181,42 +1239,25 @@
       };
     }
 
-    // Ray-sphere intersection for Click-to-Place point on sphere
+    // Unproject screen click onto the front hemisphere of the unit sphere
     function unprojectClickToSphere(clientX, clientY) {
       const rect = canvas.getBoundingClientRect();
       const width = rect.width;
       const height = rect.height;
       const baseRadius = Math.min(width, height) * 0.34 * cameraState.zoom;
-      const fov = 5.2;
 
-      const u = (clientX - rect.left - width * 0.5) / baseRadius;
-      const v = -(clientY - rect.top - height * 0.5) / baseRadius;
+      const x1 = (clientX - rect.left - width * 0.5) / baseRadius;
+      const z2 = -(clientY - rect.top - height * 0.5) / baseRadius;
+      const rSq = x1 * x1 + z2 * z2;
+      if (rSq > 1.0) return null;
 
-      // Solve along ray in camera-aligned space: x1 = u * (1 + y2/fov), z2 = v * (1 + y2/fov)
-      // Sphere condition: x1^2 + y2^2 + z2^2 = 1
-      let bestT = null;
-      const samples = 400;
-      for (let i = 0; i <= samples; i++) {
-        const y2 = -1.05 + (2.1 * i) / samples;
-        const factor = state.isTop2DView ? 1.0 : (1 + y2 / fov);
-        const x1 = u * factor;
-        const z2 = v * factor;
-        const r2 = x1 * x1 + y2 * y2 + z2 * z2;
-        if (r2 <= 1.0) {
-          bestT = { x1, y2, z2 };
-          break;
-        }
-      }
-      if (!bestT) return null;
-
-      // Inverse pitch
+      // Front hemisphere faces toward -Y' (closer to camera)
+      const y2 = -Math.sqrt(Math.max(0, 1.0 - rSq));
       const cp = Math.cos(cameraState.pitch);
       const sp = Math.sin(cameraState.pitch);
-      const y1 = bestT.y2 * cp + bestT.z2 * sp;
-      const z1 = -bestT.y2 * sp + bestT.z2 * cp;
-      const x1 = bestT.x1;
+      const y1 = y2 * cp + z2 * sp;
+      const z1 = -y2 * sp + z2 * cp;
 
-      // Inverse yaw
       const cy = Math.cos(cameraState.yaw);
       const sy = Math.sin(cameraState.yaw);
       const spun = {
@@ -1224,50 +1265,140 @@
         y: -x1 * sy + y1 * cy,
         z: z1
       };
-
       return v3Norm(rotateZ(spun, -cameraState.worldSpinZ));
     }
 
-    function draw3DPolyline(pts3D, width, height, strokeStyle, lineWidth = 1.5, dash = []) {
-      if (pts3D.length < 2) return;
+    // Draw a 3D polyline projected onto the 2D canvas
+    function draw3DPolyline(pts, width, height, strokeStyle, lineWidth = 1.5, dash = []) {
+      if (!pts || pts.length < 2) return;
       ctx.save();
       ctx.beginPath();
-      ctx.strokeStyle = strokeStyle;
-      ctx.lineWidth = lineWidth;
       ctx.setLineDash(dash);
-      pts3D.forEach((p, idx) => {
+      pts.forEach((p, idx) => {
         const pr = project3D(p, width, height);
         if (idx === 0) ctx.moveTo(pr.sx, pr.sy);
         else ctx.lineTo(pr.sx, pr.sy);
       });
+      ctx.strokeStyle = strokeStyle;
+      ctx.lineWidth = lineWidth;
       ctx.stroke();
       ctx.restore();
     }
 
-    // Draw a 3D ellipse / oval lying flat on the Z=0 equatorial plane
-    // axisAngle = direction of the C2' axis; majorAxisPerpendicular = true makes the oval's MAJOR axis perpendicular to axisAngle!
-    function drawEquatorialOval(cx, cy, axisAngle, majorRadius, minorRadius, width, height, fill = "#0f172a") {
-      const majorAngle = axisAngle + Math.PI / 2; // perpendicular to the C2' axis
-      const ux = Math.cos(majorAngle);
-      const uy = Math.sin(majorAngle);
-      const vx = -Math.sin(majorAngle);
-      const vy = Math.cos(majorAngle);
+    // Draw a filled crystallographic oval on the Z=0 equatorial plane.
+    // axisAngle is the direction of the C2 axis; major axis is perpendicular to C2 (tangent to rim).
+    function drawEquatorialOval(cx, cy, axisAngle, majorRadius, minorRadius, width, height, fillStyle) {
+      const tx = -Math.sin(axisAngle); // tangent (major axis)
+      const ty = Math.cos(axisAngle);
+      const rx = Math.cos(axisAngle);  // radial along C2 (minor axis)
+      const ry = Math.sin(axisAngle);
 
-      const segs = 32;
+      const segs = 28;
       ctx.save();
       ctx.beginPath();
       for (let i = 0; i <= segs; i++) {
-        const t = (i / segs) * Math.PI * 2;
-        const a = Math.cos(t) * majorRadius;
-        const b = Math.sin(t) * minorRadius;
-        const p3 = v3(cx + a * ux + b * vx, cy + a * uy + b * vy, 0.003);
-        const pr = project3D(p3, width, height);
+        const a = (i / segs) * Math.PI * 2;
+        const ca = Math.cos(a) * majorRadius;
+        const sa = Math.sin(a) * minorRadius;
+        const pt = v3(
+          cx + ca * tx + sa * rx,
+          cy + ca * ty + sa * ry,
+          0.003
+        );
+        const pr = project3D(pt, width, height);
         if (i === 0) ctx.moveTo(pr.sx, pr.sy);
         else ctx.lineTo(pr.sx, pr.sy);
       }
       ctx.closePath();
-      ctx.fillStyle = fill;
+      ctx.fillStyle = fillStyle;
       ctx.fill();
+      ctx.restore();
+    }
+
+    // True Stereographic Projection onto Z=0 plane:
+    // Upper hemisphere (+z) projects toward South Pole (0,0,-1) -> X = x/(1+z), Y = y/(1+z)
+    // Lower hemisphere (-z) projects toward North Pole (0,0,+1) -> X = x/(1+|z|), Y = y/(1+|z|)
+    function getStereographicEquatorPoint(pt) {
+      const denom = 1 + Math.abs(pt.z);
+      return v3(pt.x / denom, pt.y / denom, 0);
+    }
+
+    function getTargetPole(pt) {
+      return pt.z >= -1e-5 ? v3(0, 0, -1) : v3(0, 0, 1);
+    }
+
+    // Draw a 3D shaded glossy sphere at screen position (sx, sy)
+    function draw3DShadedSphere(sx, sy, radius, isUpper, isHighlighted = false) {
+      ctx.save();
+      // Soft cast shadow on globe surface
+      ctx.beginPath();
+      ctx.arc(sx + 2.0, sy + 2.6, radius, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(15, 23, 42, 0.30)";
+      ctx.fill();
+
+      // 3D specular radial highlight gradient
+      const grad = ctx.createRadialGradient(
+        sx - radius * 0.36,
+        sy - radius * 0.36,
+        radius * 0.08,
+        sx,
+        sy,
+        radius
+      );
+      if (isUpper) {
+        grad.addColorStop(0, "#ffffff");
+        grad.addColorStop(0.22, "#93c5fd");
+        grad.addColorStop(0.58, "#2563eb");
+        grad.addColorStop(1, "#0f172a");
+      } else {
+        grad.addColorStop(0, "#ffffff");
+        grad.addColorStop(0.22, "#fca5a5");
+        grad.addColorStop(0.58, "#dc2626");
+        grad.addColorStop(1, "#450a0a");
+      }
+
+      ctx.beginPath();
+      ctx.arc(sx, sy, radius, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.85)";
+      ctx.lineWidth = 1.0;
+      ctx.stroke();
+
+      if (isHighlighted) {
+        ctx.beginPath();
+        ctx.arc(sx, sy, radius + 3.5, 0, Math.PI * 2);
+        ctx.strokeStyle = "#f59e0b";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // Draw a regular polygon centered at (0,0,0.002)
+    function drawRegularPolygon(sides, radius, startOffset, width, height, fillStyle, strokeStyle, lineWidth = 2.2) {
+      const polyPts = [];
+      for (let i = 0; i <= sides; i++) {
+        const a = startOffset + (2 * Math.PI * i) / sides;
+        polyPts.push(v3(radius * Math.cos(a), radius * Math.sin(a), 0.002));
+      }
+      ctx.save();
+      ctx.beginPath();
+      polyPts.forEach((p, idx) => {
+        const pr = project3D(p, width, height);
+        if (idx === 0) ctx.moveTo(pr.sx, pr.sy);
+        else ctx.lineTo(pr.sx, pr.sy);
+      });
+      ctx.closePath();
+      if (fillStyle) {
+        ctx.fillStyle = fillStyle;
+        ctx.fill();
+      }
+      if (strokeStyle) {
+        ctx.strokeStyle = strokeStyle;
+        ctx.lineWidth = lineWidth;
+        ctx.stroke();
+      }
       ctx.restore();
     }
 
@@ -1292,7 +1423,6 @@
 
       // 1. Back hemisphere latitude & longitude rings (3D mode only)
       if (!state.isTop2DView) {
-        // Subtle sphere silhouette fill
         const grad = ctx.createRadialGradient(
           centerPr.sx - centerPr.baseRadius * 0.25,
           centerPr.sy - centerPr.baseRadius * 0.25,
@@ -1309,7 +1439,6 @@
         ctx.fillStyle = grad;
         ctx.fill();
 
-        // Concentric latitude circles around +Z / -Z poles
         const latAngles = [-60, -30, 30, 60];
         latAngles.forEach(latDeg => {
           const zVal = Math.sin(latDeg * DEG2RAD);
@@ -1322,7 +1451,6 @@
           draw3DPolyline(ring, W, H, "rgba(148, 163, 184, 0.32)", 1);
         });
 
-        // Meridian longitude circles passing through +Z and -Z poles
         for (let m = 0; m < 6; m++) {
           const phi = (m * Math.PI) / 6;
           const merid = [];
@@ -1353,8 +1481,6 @@
       ctx.fill();
       ctx.restore();
 
-      // Equatorial primitive circle border:
-      // In Top 2D Stereogram mode: bold green if sigma_h present, black dashed if sigma_h absent
       if (state.isTop2DView) {
         if (pg.sigmaH) {
           draw3DPolyline(eqCirclePts, W, H, "#059669", 3.6, []);
@@ -1431,7 +1557,6 @@
       }
 
       // 5. Perpendicular C2' Axes + TWO SMALL BLACK OVALS AT BOTH ENDS
-      // Major axis of each oval is PERPENDICULAR to the C2' axis (tangent to the equatorial circle)!
       if (pg.dihedral) {
         const c2Count = pg.n || 2;
         for (let k = 0; k < c2Count; k++) {
@@ -1441,59 +1566,51 @@
 
           draw3DPolyline([v3(-dx, -dy, 0), v3(dx, dy, 0)], W, H, "#475569", 1.4, [6, 4]);
 
-          // Two small ovals at opposite ends (+1 and -1), major axis perpendicular to C2' axis
           [-1, 1].forEach(dir => {
             drawEquatorialOval(dir * dx, dir * dy, angle, 0.088, 0.038, W, H, "#0f172a");
           });
         }
       }
 
-      // 6. Central Compact Polygon OR Central Black Oval for C2 Principal Axis
+      // 6. Central Blackish Polygon & Nested Improper-Rotation Symbology
       const sides = pg.polySides || 0;
-      if (sides === 2) {
-        // Small horizontal black oval at the center for C2 principal axis
+      const innerSides = pg.innerSides || 0;
+      const getPolyOffset = (s) => (s === 3 ? Math.PI / 2 : s === 4 ? Math.PI / 4 : 0);
+
+      if (sides === 2 && innerSides === 0) {
         drawEquatorialOval(0, 0, Math.PI / 2, 0.095, 0.044, W, H, "#0f172a");
       } else if (sides >= 3) {
-        const r = 0.34;
-        const startOffset = sides === 3 ? Math.PI / 2 : sides === 4 ? Math.PI / 4 : 0;
-        const polyPts = [];
-        for (let i = 0; i <= sides; i++) {
-          const a = startOffset + (2 * Math.PI * i) / sides;
-          polyPts.push(v3(r * Math.cos(a), r * Math.sin(a), 0.002));
+        if (innerSides > 0) {
+          drawRegularPolygon(sides, 0.35, getPolyOffset(sides), W, H, "rgba(15, 23, 42, 0.08)", "#0f172a", 2.0);
+          if (innerSides === 2) {
+            drawEquatorialOval(0, 0, Math.PI / 2, 0.11, 0.05, W, H, "#0f172a");
+          } else {
+            drawRegularPolygon(innerSides, 0.18, getPolyOffset(innerSides), W, H, "#0f172a", "#0f172a", 1.6);
+          }
+        } else {
+          drawRegularPolygon(sides, 0.33, getPolyOffset(sides), W, H, "rgba(15, 23, 42, 0.24)", "#0f172a", 2.2);
         }
-
-        ctx.save();
-        ctx.beginPath();
-        polyPts.forEach((p, idx) => {
-          const pr = project3D(p, W, H);
-          if (idx === 0) ctx.moveTo(pr.sx, pr.sy);
-          else ctx.lineTo(pr.sx, pr.sy);
-        });
-        ctx.closePath();
-        ctx.fillStyle = "rgba(14, 165, 233, 0.16)";
-        ctx.fill();
-        ctx.strokeStyle = "#0284c7";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        ctx.restore();
       }
 
-      // 7. Data Points, Vertical Drop Lines & Equatorial Projections
-      // Sort back-to-front by depth in 3D mode
-      const indexedPts = state.points.map((pt, idx) => ({
-        pt,
-        idx,
-        pr3D: project3D(pt, W, H),
-        prEq: project3D(v3(pt.x, pt.y, 0), W, H)
-      }));
+      // 7. Data Points, Pole-to-Pole Stereographic Rays & Equatorial Projections
+      const indexedPts = state.points.map((pt, idx) => {
+        const eqPt = getStereographicEquatorPoint(pt);
+        const polePt = getTargetPole(pt);
+        return {
+          pt,
+          eqPt,
+          polePt,
+          idx,
+          pr3D: project3D(pt, W, H),
+          prEq: project3D(eqPt, W, H)
+        };
+      });
       indexedPts.sort((a, b) => b.pr3D.depth - a.pr3D.depth);
 
-      indexedPts.forEach(({ pt, idx, pr3D, prEq }) => {
+      indexedPts.forEach(({ pt, eqPt, polePt, idx, pr3D, prEq }) => {
         const isLatest = idx === state.points.length - 1;
         const isUpper = pt.z >= -1e-5;
-        const color = isUpper ? COLOR_UPPER : COLOR_LOWER;
 
-        // Equatorial projection marker (always visible in both 3D and 2D Stereogram modes)
         if (isUpper) {
           ctx.beginPath();
           ctx.arc(prEq.sx, prEq.sy, 5.2, 0, Math.PI * 2);
@@ -1507,32 +1624,25 @@
           ctx.stroke();
         }
 
-        // 3D sphere points & vertical drop lines (hidden in Top 2D Stereogram mode)
         if (!state.isTop2DView) {
           draw3DPolyline(
-            [pt, v3(pt.x, pt.y, 0)],
+            [pt, eqPt],
             W,
             H,
-            isUpper ? "rgba(37, 99, 235, 0.65)" : "rgba(220, 38, 38, 0.65)",
-            isLatest ? 1.8 : 1.2
+            isUpper ? "rgba(37, 99, 235, 0.78)" : "rgba(220, 38, 38, 0.78)",
+            isLatest ? 1.8 : 1.3
+          );
+          draw3DPolyline(
+            [eqPt, polePt],
+            W,
+            H,
+            isUpper ? "rgba(37, 99, 235, 0.36)" : "rgba(220, 38, 38, 0.36)",
+            1.1,
+            [4, 4]
           );
 
-          const rad = isLatest ? 6.5 : 5.4;
-          ctx.beginPath();
-          ctx.arc(pr3D.sx, pr3D.sy, rad, 0, Math.PI * 2);
-          ctx.fillStyle = color;
-          ctx.fill();
-          ctx.strokeStyle = "#ffffff";
-          ctx.lineWidth = 1.3;
-          ctx.stroke();
-
-          if (isLatest && state.mode === "manual") {
-            ctx.beginPath();
-            ctx.arc(pr3D.sx, pr3D.sy, rad + 3.5, 0, Math.PI * 2);
-            ctx.strokeStyle = "#f59e0b";
-            ctx.lineWidth = 2;
-            ctx.stroke();
-          }
+          const rad = isLatest ? 7.6 : 6.4;
+          draw3DShadedSphere(pr3D.sx, pr3D.sy, rad, isUpper, isLatest && state.mode === "manual");
         }
       });
 
@@ -1561,25 +1671,22 @@
         const t = rawT < 0.5 ? 4 * rawT * rawT * rawT : 1 - Math.pow(-2 * rawT + 2, 3) / 2;
 
         const curPos = anim.transformFn(anim.sourcePoint, t);
+        const eqPos = getStereographicEquatorPoint(curPos);
+        const polePos = getTargetPole(curPos);
         const isUpper = curPos.z >= -1e-5;
         const curColor = isUpper ? COLOR_UPPER : COLOR_LOWER;
         anim.trailPts.push(v3Clone(curPos));
 
         if (!state.isTop2DView) {
           draw3DPolyline(anim.trailPts, W, H, "rgba(15, 23, 42, 0.5)", 1.6, [4, 3]);
-          draw3DPolyline([curPos, v3(curPos.x, curPos.y, 0)], W, H, curColor, 1.8);
+          draw3DPolyline([curPos, eqPos], W, H, curColor, 1.8);
+          draw3DPolyline([eqPos, polePos], W, H, curColor, 1.1, [4, 4]);
 
           const pr3 = project3D(curPos, W, H);
-          ctx.beginPath();
-          ctx.arc(pr3.sx, pr3.sy, 7.2, 0, Math.PI * 2);
-          ctx.fillStyle = curColor;
-          ctx.fill();
-          ctx.strokeStyle = "#ffffff";
-          ctx.lineWidth = 1.5;
-          ctx.stroke();
+          draw3DShadedSphere(pr3.sx, pr3.sy, 8.2, isUpper, false);
         }
 
-        const prEq = project3D(v3(curPos.x, curPos.y, 0), W, H);
+        const prEq = project3D(eqPos, W, H);
         if (isUpper) {
           ctx.beginPath();
           ctx.arc(prEq.sx, prEq.sy, 5.5, 0, Math.PI * 2);
@@ -1596,27 +1703,47 @@
         if (rawT >= 1) {
           recomputeChainedPoint();
           activeAnimations.splice(i, 1);
+          renderFilteredOperationButtons();
 
           const finalPt = state.points[0];
           const signBadge = finalPt.z >= -1e-5 ? "[+z Blue •]" : "[−z Red ○]";
-          document.getElementById("statusOp").textContent = `Sequence: ${anim.chainStr} ${signBadge}`;
-          addLogEntry(`Chain: ${anim.chainStr} ${signBadge}`);
+          const resOp = findResultantGroupOp();
+          const prodText = resOp && state.opChain.length >= 2 ? ` = ${resOp.label}` : "";
+          document.getElementById("statusOp").textContent = `Sequence: ${anim.chainStr}${prodText} ${signBadge}`;
           updateStatusReadout();
         }
       }
     }
 
     // =========================================================================
-    // 4. UI UPDATES & OPERATION CHAINING / UNDO
+    // 4. UI UPDATES & OPERATION CHAINING / UNDO / PRODUCT IDENTIFICATION
     // =========================================================================
+    function findResultantGroupOp() {
+      if (state.mode !== "manual" || state.opChain.length < 2) return null;
+      const pg = POINT_GROUPS[state.groupKey] || POINT_GROUPS.C2v;
+      const testSeed = v3Norm(v3(0.413, 0.629, 0.658));
+      let chainedRes = testSeed;
+      for (const op of state.opChain) {
+        chainedRes = applyOpInstant(chainedRes, op);
+      }
+      for (const cand of pg.ops) {
+        const candRes = applyOpInstant(testSeed, cand);
+        if (v3Dist(chainedRes, candRes) < 1e-3) {
+          return cand;
+        }
+      }
+      return null;
+    }
+
     function updateStatusReadout() {
       document.getElementById("pointCountBadge").textContent = state.points.length;
       if (state.points.length > 0) {
         const latest = state.points[state.points.length - 1];
+        const eqPt = getStereographicEquatorPoint(latest);
         const sph = cartesianToSphericalDeg(latest);
         const hemiLabel = latest.z >= -1e-5 ? "+z Blue •" : "−z Red ○";
         document.getElementById("statusCoords").textContent =
-          `Active (${hemiLabel}): θ=${sph.theta.toFixed(1)}°, φ=${sph.phi.toFixed(1)}° | Equator: (${latest.x.toFixed(2)}, ${latest.y.toFixed(2)})`;
+          `Active (${hemiLabel}): θ=${sph.theta.toFixed(1)}°, φ=${sph.phi.toFixed(1)}° | Stereogram: (${eqPt.x.toFixed(2)}, ${eqPt.y.toFixed(2)})`;
       }
     }
 
@@ -1648,6 +1775,8 @@
       document.getElementById("activeGroupOpsTitle").textContent = pg.name;
       document.getElementById("pgPolygonBadge").textContent = pg.polyLabel;
 
+      const resultantOp = findResultantGroupOp();
+
       containerEl.innerHTML = "";
       pg.ops.forEach((opObj) => {
         const btn = document.createElement("button");
@@ -1655,9 +1784,12 @@
         btn.textContent = opObj.label;
 
         const isActiveInChain = state.mode === "manual" && state.opChain.some(o => o.id === opObj.id);
+        const isResultProduct = resultantOp && resultantOp.id === opObj.id;
+
         let cls = "op-btn mono";
         if (opObj.flipsZ) cls += " flips-z";
-        if (isActiveInChain) cls += " active-chain";
+        if (isResultProduct) cls += " result-op";
+        else if (isActiveInChain) cls += " active-chain";
         btn.className = cls;
 
         btn.addEventListener("click", () => {
@@ -1709,7 +1841,6 @@
           ? state.opChain.map(o => o.label).join(" → ")
           : "Seed Point Only";
         document.getElementById("statusOp").textContent = `Undid ${opObj.label} | Active: ${chainStr}`;
-        addLogEntry(`Undid ${opObj.label} (Active: ${chainStr})`);
         return;
       }
 
@@ -1830,7 +1961,6 @@
         const signStr = hitPt.z >= 0 ? "+z Blue •" : "−z Red ○";
         document.getElementById("statusOp").textContent =
           `Placed Seed Point (${signStr}) at θ=${state.seedTheta}°, φ=${state.seedPhi}°`;
-        addLogEntry(`Placed seed (${signStr}, θ=${state.seedTheta}°, φ=${state.seedPhi}°)`);
         updateModeButtonsUI();
         renderFilteredOperationButtons();
         updateStatusReadout();
@@ -1878,8 +2008,6 @@
 
     document.getElementById("pointGroupSelect").addEventListener("change", (e) => {
       state.groupKey = e.target.value;
-      const pg = POINT_GROUPS[state.groupKey];
-      addLogEntry(`Selected ${pg.name} (${pg.polyLabel}).`);
       refreshGroupMode();
     });
 
@@ -1919,7 +2047,6 @@
       const signStr = pt.z >= 0 ? "+z Blue •" : "−z Red ○";
       document.getElementById("statusOp").textContent =
         `Single Seed (${signStr}) ready — click operations to chain`;
-      addLogEntry(`Isolated single seed (${signStr}, θ=${state.seedTheta}°, φ=${state.seedPhi}°)`);
       updateModeButtonsUI();
       renderFilteredOperationButtons();
       updateStatusReadout();
