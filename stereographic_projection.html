@@ -1,2107 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3D Stereographic Projection & Chemical Point Group Lab</title>
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #f1f5f9;
-      color: #0f172a;
-      overflow: hidden;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-    select, input {
-      -webkit-user-select: text;
-      -moz-user-select: text;
-      -ms-user-select: text;
-      user-select: text;
-    }
-    .mono {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    }
-    .app-shell {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-    }
-    .main-row {
-      flex: 1;
-      display: flex;
-      flex-direction: row;
-      overflow: hidden;
-      min-height: 0;
-    }
-    @media (max-width: 960px) {
-      .main-row {
-        flex-direction: column;
-      }
-      .viewport-pane {
-        height: 52vh !important;
-      }
-      .sidebar-pane {
-        width: 100% !important;
-        height: 48vh !important;
-        border-left: none !important;
-        border-top: 1px solid #cbd5e1;
-      }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Group Theory &amp; Stereographic Projection | Dr. Snehasis Banerjee</title>
+<link rel="icon" href="snehasis_pp.ico">
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: url('bg.jpg') no-repeat center fixed;
+        background-size: cover;
+        color: #222;
+        line-height: 1.65;
     }
 
-    /* LEFT / CENTER 3D VIEWPORT */
-    .viewport-pane {
-      position: relative;
-      flex: 1;
-      height: 100%;
-      background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    #canvasContainer {
-      width: 100%;
-      height: 100%;
-      cursor: grab;
-      position: relative;
-    }
-    #canvasContainer:active {
-      cursor: grabbing;
-    }
-    #simCanvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-      outline: none;
+    .college-image {
+        display: block;
+        margin: 0px auto;
+        width: 500px;
+        max-width: 90%;
+        opacity: 0.85;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
 
-    /* FLOATING OVERLAYS */
-    .top-overlay {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      right: 12px;
-      z-index: 10;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      pointer-events: none;
+    .overlay {
+        background: rgba(255, 255, 255, 0.90);
+        min-height: 100vh;
+        padding: 40px;
     }
-    .title-card {
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(203, 213, 225, 0.9);
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-      border-radius: 12px;
-      padding: 8px 14px;
-      pointer-events: auto;
+
+    .container {
+        max-width: 1100px;
+        margin: auto;
     }
-    .title-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+
+    .navbar {
+        background: #003366;
+        padding: 10px 0;
+        margin-bottom: 25px;
+        border-radius: 4px;
     }
-    .dot-blue {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #2563eb;
-      display: inline-block;
+
+    .navbar ul {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        margin: 0;
+        padding: 0 15px;
     }
-    .title-card h1 {
-      margin: 0;
-      font-size: 15px;
-      font-weight: 700;
-      color: #1e293b;
-      letter-spacing: -0.01em;
+
+    .navbar a {
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 600;
     }
+
+    .navbar a:hover,
+    .navbar a.active {
+        text-decoration: underline;
+    }
+
+    .content-wrapper {
+        display: flex;
+        gap: 30px;
+        align-items: flex-start;
+    }
+
+    .main-content {
+        flex: 3;
+    }
+
+    .sidebar {
+        flex: 1;
+        background: #f4f8fc;
+        padding: 20px;
+        border-left: 4px solid #003366;
+        border-radius: 6px;
+        position: sticky;
+        top: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .sidebar h3 {
+        color: #003366;
+        margin-top: 0;
+        font-size: 1.2em;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar li {
+        margin-bottom: 14px;
+        font-size: 14px;
+    }
+
+    .sidebar a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .sidebar a:hover {
+        color: #003366;
+        text-decoration: underline;
+    }
+
+    h1 {
+        color: #003366;
+        margin: 0 0 8px 0;
+        font-size: 1.9em;
+    }
+
     .subtitle {
-      margin: 2px 0 0 0;
-      font-size: 11px;
-      color: #64748b;
-    }
-    .camera-bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(203, 213, 225, 0.9);
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-      border-radius: 12px;
-      padding: 6px;
-      pointer-events: auto;
-    }
-    .cam-btn {
-      padding: 6px 10px;
-      font-size: 12px;
-      font-weight: 600;
-      border-radius: 8px;
-      border: none;
-      background: #f1f5f9;
-      color: #334155;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-    }
-    .cam-btn:hover {
-      background: #e2e8f0;
-    }
-    .cam-btn.active-dark {
-      background: #1e293b;
-      color: #ffffff;
-    }
-    .cam-btn.active-blue {
-      background: #2563eb;
-      color: #ffffff;
-    }
-    .revolve-btn {
-      padding: 6px 10px;
-      font-size: 12px;
-      font-weight: 600;
-      border-radius: 8px;
-      border: 1px solid #a7f3d0;
-      background: #ecfdf5;
-      color: #047857;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .revolve-btn.active {
-      background: #059669;
-      color: #ffffff;
-      border-color: #059669;
-    }
-    .revolve-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #10b981;
-    }
-    .revolve-btn.active .revolve-dot {
-      background: #ffffff;
+        color: #555;
+        font-size: 1.05em;
+        margin-top: 0;
+        margin-bottom: 20px;
     }
 
-    .bottom-overlay {
-      position: absolute;
-      bottom: 12px;
-      left: 12px;
-      right: 12px;
-      z-index: 10;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 8px;
-      pointer-events: none;
-    }
-    .legend-card {
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(203, 213, 225, 0.9);
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-      border-radius: 12px;
-      padding: 7px 12px;
-      font-size: 11px;
-      color: #334155;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 14px;
-      pointer-events: auto;
-    }
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .swatch-blue {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #2563eb;
-      display: inline-block;
-    }
-    .swatch-red {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      border: 2px solid #dc2626;
-      background: #ffffff;
-      display: inline-block;
-    }
-    .swatch-oval {
-      width: 14px;
-      height: 7px;
-      border-radius: 50%;
-      background: #0f172a;
-      display: inline-block;
-    }
-    .swatch-line {
-      width: 14px;
-      height: 2px;
-      background: #0d9488;
-      display: inline-block;
-    }
-    .bottom-left-stack {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 6px;
-      pointer-events: auto;
-    }
-    .pp-photo-card {
-      width: 100px;
-      height: 125px;
-      background: rgba(255, 255, 255, 0.96);
-      border: 1.5px solid #94a3b8;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      flex-shrink: 0;
-    }
-    .pp-photo-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .pp-photo-placeholder {
-      display: none;
-      text-align: center;
-      font-size: 9px;
-      font-weight: 700;
-      color: #475569;
-      line-height: 1.25;
-      padding: 4px;
-    }
-    .coffee-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 10px;
-      border-radius: 8px;
-      background: #ffdd00;
-      color: #0f172a;
-      border: 1px solid #eab308;
-      font-size: 11px;
-      font-weight: 700;
-      text-decoration: none;
-      box-shadow: 0 2px 5px rgba(15, 23, 42, 0.14);
-      transition: transform 0.12s, background 0.15s;
-    }
-    .coffee-link:hover {
-      background: #facc15;
-      transform: translateY(-1px);
-    }
-    .status-card {
-      background: rgba(15, 23, 42, 0.94);
-      color: #f1f5f9;
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 11px;
-    }
-    .status-head {
-      display: flex;
-      justify-content: space-between;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      font-size: 10px;
-      margin-bottom: 4px;
-    }
-    .status-op {
-      color: #34d399;
-      font-weight: 600;
-      line-height: 1.4;
-    }
-    .status-coords {
-      color: #cbd5e1;
-      font-size: 11px;
-      margin-top: 3px;
-      line-height: 1.4;
+    h2 {
+        color: #003366;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 5px;
+        margin-top: 30px;
+        font-size: 1.35em;
     }
 
-    /* RIGHT SIDEBAR */
-    .sidebar-pane {
-      width: 400px;
-      height: 100%;
-      background: #ffffff;
-      border-left: 1px solid #cbd5e1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: -2px 0 8px rgba(15, 23, 42, 0.05);
-      z-index: 20;
-      flex-shrink: 0;
-    }
-    .sidebar-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      border-bottom: 1px solid #e2e8f0;
-      background: #f8fafc;
-    }
-    .sidebar-header span:first-child {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #1e293b;
-    }
-    .sidebar-header span:last-child {
-      font-size: 11px;
-      font-weight: 500;
-      color: #64748b;
-    }
-    .sidebar-scroll {
-      flex: 1;
-      overflow-y: auto;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    .info-box {
+        background: #f4f8fc;
+        border-left: 5px solid #003366;
+        padding: 18px 22px;
+        margin-top: 20px;
+        border-radius: 6px;
     }
 
-    /* CARDS */
-    .panel-box {
-      border-radius: 12px;
-      padding: 12px 14px;
-    }
-    .panel-blue {
-      background: rgba(239, 246, 255, 0.75);
-      border: 1px solid #bfdbfe;
-    }
-    .panel-slate {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-    }
-    .panel-white {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-    }
-    .panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-    .panel-title {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: #1e293b;
-    }
-    .panel-blue .panel-title {
-      color: #172554;
-    }
-    .badge-pill {
-      font-size: 10px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: #2563eb;
-      color: #ffffff;
-    }
-    .pg-select {
-      width: 100%;
-      border-radius: 8px;
-      border: 1px solid #93c5fd;
-      background: #ffffff;
-      padding: 8px 10px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #1e293b;
-      outline: none;
-      margin-bottom: 8px;
-    }
-    .pg-select:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
-    }
-    .pg-desc {
-      font-size: 12px;
-      line-height: 1.45;
-      color: #334155;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 8px;
-      padding: 8px 10px;
-      border: 1px solid #dbeafe;
+    .app-launch-box {
+        background: #eef5fc;
+        border: 1px solid #c5d9ed;
+        border-left: 5px solid #003366;
+        padding: 22px 25px;
+        margin-top: 28px;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 51, 102, 0.08);
     }
 
-    /* SEED CONTROLS */
-    .click-place-btn {
-      padding: 4px 10px;
-      border-radius: 8px;
-      font-size: 11px;
-      font-weight: 600;
-      border: 1px solid #fbbf24;
-      background: #fef3c7;
-      color: #78350f;
-      cursor: pointer;
-    }
-    .click-place-btn.on {
-      border-color: #059669;
-      background: #059669;
-      color: #ffffff;
-    }
-    .slider-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-    .slider-label-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      margin-bottom: 4px;
-      color: #475569;
-    }
-    .slider-label-row strong {
-      color: #0f172a;
-    }
-    input[type="range"] {
-      width: 100%;
-      accent-color: #2563eb;
-      cursor: pointer;
-    }
-    .mode-btn-row {
-      display: flex;
-      gap: 8px;
-    }
-    .mode-btn {
-      padding: 7px 10px;
-      border-radius: 8px;
-      border: none;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      background: #e2e8f0;
-      color: #1e293b;
-      transition: background 0.15s, color 0.15s;
-    }
-    .mode-btn:hover {
-      background: #cbd5e1;
-    }
-    .mode-btn.flex-1 {
-      flex: 1;
-    }
-    .mode-btn.active {
-      background: #2563eb;
-      color: #ffffff;
+    .app-launch-box h3 {
+        margin-top: 0;
+        color: #003366;
+        font-size: 1.25em;
     }
 
-    /* OPERATIONS GRID */
-    .hint-tag {
-      font-size: 10px;
-      font-weight: 600;
-      color: #1d4ed8;
-      background: #eff6ff;
-      padding: 2px 7px;
-      border-radius: 6px;
-      border: 1px solid #bfdbfe;
+    .btn-container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px;
+        margin-top: 18px;
     }
-    .ops-help {
-      margin: 0 0 8px 0;
-      font-size: 11px;
-      line-height: 1.4;
-      color: #64748b;
+
+    .launch-btn {
+        display: inline-block;
+        background-color: #003366;
+        color: #ffffff;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 5px;
+        border: 2px solid #003366;
+        transition: background-color 0.25s ease, transform 0.15s ease;
     }
-    .ops-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+
+    .launch-btn:hover {
+        background-color: #004c99;
+        border-color: #004c99;
+        transform: translateY(-2px);
     }
-    .op-btn {
-      padding: 7px 4px;
-      border-radius: 8px;
-      border: 1px solid #cbd5e1;
-      background: #f8fafc;
-      color: #1e293b;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.12s;
+
+    .direct-link {
+        color: #003366;
+        font-weight: 600;
+        font-size: 14.5px;
+        text-decoration: none;
+        border-bottom: 1px dashed #003366;
+        padding-bottom: 2px;
     }
-    .op-btn:hover {
-      background: #f1f5f9;
+
+    .direct-link:hover {
+        color: #0055aa;
+        border-bottom-style: solid;
     }
-    .op-btn.flips-z {
-      background: #fff1f2;
-      border-color: #fda4af;
-      color: #881337;
+
+    .notation-list li {
+        margin-bottom: 8px;
     }
-    .op-btn.flips-z:hover {
-      background: #ffe4e6;
+
+    footer {
+        margin-top: 45px;
+        text-align: center;
+        color: #666;
+        padding-bottom: 20px;
+        border-top: 1px solid #ddd;
+        padding-top: 15px;
+        font-size: 14px;
     }
-    .op-btn.active-chain {
-      background: #2563eb !important;
-      border-color: #1d4ed8 !important;
-      color: #ffffff !important;
-      font-weight: 700;
-      box-shadow: 0 0 0 2px #93c5fd;
+
+    @media (max-width: 850px) {
+        .overlay {
+            padding: 20px;
+        }
+        .content-wrapper {
+            flex-direction: column;
+        }
+        .sidebar {
+            width: 100%;
+            position: static;
+            order: -1;
+            box-sizing: border-box;
+        }
     }
-    .op-btn.result-op {
-      background: #059669 !important;
-      border-color: #047857 !important;
-      color: #ffffff !important;
-      font-weight: 700;
-      box-shadow: 0 0 0 2px #6ee7b7;
-    }
-	/* FOOTER */
-	footer {
-	  background: #0f172a;
-	  color: #e2e8f0;
-	  border-top: 1px solid #1e293b;
-	  padding: 6px 0;
-	  font-size: 12px;
-	  letter-spacing: 0.02em;
-	  flex-shrink: 0;
-	  z-index: 30;
-	  overflow: hidden;
-	  white-space: nowrap;
-	}
-	.footer-marquee {
-	  display: inline-block;
-	  padding-left: 100%;
-	  animation: scrollFooter 18s linear infinite;
-	}
-	footer:hover .footer-marquee {
-	  animation-play-state: paused;
-	}
-	@keyframes scrollFooter {
-	  0% { transform: translateX(0); }
-	  100% { transform: translateX(-100%); }
-	}
-	footer .author {
-	  font-weight: 600;
-	  color: #ffffff;
-	}
-	footer .sep {
-	  margin: 0 8px;
-	  color: #64748b;
-	}
-		}
-    /* LOG BOX */
-    @media print {
-      body {
-        display: none !important;
-      }
-    }
-	
-  </style>
+</style>
 </head>
 <body>
-  <div class="app-shell">
-    <!-- MAIN CONTENT ROW -->
-    <div class="main-row">
-      <!-- 3D / 2D VIEWPORT -->
-      <div class="viewport-pane">
-        <div class="top-overlay">
-          <div class="title-card">
-            <div class="title-row">
-              <span class="dot-blue"></span>
-               <h1>Stereographic Projection of Point Group <br>By Snehasis Banerjee </br></h1>
-            </div>
-            <p class="subtitle">
-              Upper Hemisphere (<strong style="color:#2563eb">+z Blue &bull;</strong>) &harr; Lower (<strong style="color:#dc2626">&minus;z Red &#9675;</strong>) | Overlap (<strong style="color:#6d28d9">&#8857;</strong>)
-            </p>
-          </div>
+    <img src="college.jpg" alt="College Campus" class="college-image">
+    <div class="overlay">
+        <div class="container">
 
-          <div class="camera-bar">
-            <button id="btnViewOblique" class="cam-btn active-dark">3D Oblique</button>
-            <button id="btnViewTop" class="cam-btn">Top (2D Stereogram)</button>
-            <button id="btnViewSide" class="cam-btn">Side (Equator Edge)</button>
-            <button id="btnToggleRevolve" class="revolve-btn">
-              <span class="revolve-dot"></span>
-              <span>Auto-Revolve</span>
-            </button>
-          </div>
-        </div>
-
-        <div id="canvasContainer">
-          <canvas id="simCanvas"></canvas>
-        </div>
-
-        <div class="bottom-overlay">
-          <div class="bottom-left-stack">
-            <div class="pp-photo-card" title="Dr Snehasis Banerjee">
-              <img src="./snehasis_pp.jpg" alt="Dr Snehasis Banerjee" onerror="this.style.display='none'; document.getElementById('ppPhotoFallback').style.display='block';" />
-              <div id="ppPhotoFallback" class="pp-photo-placeholder">
-                ./pp_photo.jpg
-              </div>
+            <div class="navbar">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="discussion.html">Discussion</a></li>
+                    <li><a href="UG_chemistry.html">UG Chemistry</a></li>
+                    <li><a href="stereographic_projection.html" class="active">Group Theory</a></li>
+                    <li><a href="chemsoft.html">Chemistry Software</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
             </div>
 
-            <a id="buyMeCoffeeLink" href="https://www.buymeacoffee.com/" target="_blank" rel="noopener noreferrer" class="coffee-link">
-  		<span>&#9749;</span>
-  		<span style="display:flex; flex-direction:column; line-height:1.15;">
-    	<span>Buy me a coffee</span>
-    	<span style="font-size:9px; font-weight:500;">To keep the site active</span>
-  		</span>
-		</a>
-          </div>
+            <div class="content-wrapper">
+                <div class="main-content">
+                    <h1>Molecular Symmetry &amp; Stereographic Projection</h1>
+                    <p class="subtitle">Interactive Visualization for Chemical Group Theory | Dr. Snehasis Banerjee</p>
 
-          <div class="legend-card">
-            <span class="legend-item"><span class="swatch-blue"></span> +z Upper (&bull; Blue)</span>
-            <span class="legend-item"><span class="swatch-red"></span> &minus;z Lower (&#9675; Red)</span>
-            <span class="legend-item"><span class="swatch-oval"></span> C<sub>2</sub> / C<sub>2</sub>&prime; Oval</span>
-            <span class="legend-item"><span class="swatch-line"></span> &sigma; Plane / C<sub>n</sub> Axis</span>
-          </div>
-        </div>
-      </div>
+                    <div class="info-box">
+                        <b>Concept Overview:</b><br>
+                        In chemical group theory, understanding how three-dimensional symmetry operations—such as
+                        proper rotations (<i>C<sub>n</sub></i>), reflections (&sigma;), inversion (<i>i</i>), and
+                        improper rotations (<i>S<sub>n</sub></i>)—generate sets of equivalent points in space is
+                        essential for assigning molecular point groups and constructing character tables.
+                    </div>
 
-      <!-- RIGHT CONTROL SIDEBAR -->
-      <aside class="sidebar-pane">
-        <div class="sidebar-header">
-          <span>Point Group &amp; Operations</span>
-          <span>Standalone Interactive Lab</span>
-        </div>
+                    <h2>Idea Behind Stereographic Projection</h2>
+                    <p>
+                        Visualizing multiple intersecting symmetry planes and rotation axes in three dimensions can be
+                        challenging on a flat page or blackboard. <b>Stereographic projection</b> solves this problem by
+                        projecting a three-dimensional sphere onto a two-dimensional equatorial plane while preserving
+                        angular relationships.
+                    </p>
+                    <p>
+                        Imagine placing a molecule or point-group origin at the center of a reference sphere:
+                    </p>
+                    <ul class="notation-list">
+                        <li><b>Upper Hemisphere Poles (&bull;):</b> A point on the upper hemisphere is connected by a straight line to the <b>South Pole</b>; where this line pierces the equatorial plane, it is marked as a <b>solid dot (&bull;)</b>.</li>
+                        <li><b>Lower Hemisphere Poles (&deg;):</b> A point on the lower hemisphere is connected to the <b>North Pole</b>; where this line intersects the equatorial plane, it is marked as an <b>open circle (&deg;)</b>.</li>
+                        <li><b>Horizontal Mirror Plane (&sigma;<sub>h</sub>):</b> Represented by a solid outer bounding circle on the equatorial plane (dashed if &sigma;<sub>h</sub> is absent).</li>
+                        <li><b>Vertical &amp; Dihedral Planes (&sigma;<sub>v</sub>, &sigma;<sub>d</sub>):</b> Appear as straight solid diameters passing through the center of the stereogram.</li>
+                    </ul>
 
-        <div class="sidebar-scroll">
-          <!-- 1. POINT GROUP SELECTOR -->
-          <div class="panel-box panel-blue">
-            <div class="panel-head">
-              <label for="pointGroupSelect" class="panel-title">1. Select Point Group</label>
-              <span id="pgPolygonBadge" class="badge-pill">Central C2 Oval</span>
-            </div>
+                    <h2>Interactive 3D Stereographic Simulator</h2>
+                    <p>
+                        To help undergraduate and postgraduate chemistry students bridge the gap between 3D molecular
+                        geometry and 2D stereograms, I have developed an interactive web simulator. You can rotate the
+                        3D sphere, toggle symmetry elements, apply step-by-step group operations, and watch the
+                        stereographic projection update in real time.
+                    </p>
 
-            <select id="pointGroupSelect" class="pg-select">
-              <optgroup label="Low Symmetry">
-                <option value="C1">C1 — Identity (E)</option>
-                <option value="Cs">Cs (= C1v, C1h, S1) — Mirror plane (E, &sigma;h)</option>
-                <option value="Ci">Ci (= S2) — Inversion center (E, i)</option>
-              </optgroup>
-              <optgroup label="Cyclic Groups (Cn)">
-                <option value="C2">C2 — 2-fold axis (Central Oval)</option>
-                <option value="C3">C3 — 3-fold axis (Triangle)</option>
-                <option value="C4">C4 — 4-fold axis (Square)</option>
-                <option value="C5">C5 — 5-fold axis (Pentagon)</option>
-                <option value="C6">C6 — 6-fold axis (Hexagon)</option>
-                <option value="C7">C7 — 7-fold axis (Heptagon)</option>
-                <option value="C8">C8 — 8-fold axis (Octagon)</option>
-              </optgroup>
-              <optgroup label="Dihedral Groups (Dn)">
-                <option value="D2">D2 — Three perpendicular C2 axes (Ovals)</option>
-                <option value="D3">D3 — C3 + three C2' axes (Triangle + Ovals)</option>
-                <option value="D4">D4 — C4 + four C2' axes (Square + Ovals)</option>
-                <option value="D5">D5 — C5 + five C2' axes (Pentagon + Ovals)</option>
-                <option value="D6">D6 — C6 + six C2' axes (Hexagon + Ovals)</option>
-              </optgroup>
-              <optgroup label="Pyramidal Groups (Cnv)">
-                <option value="C2v" selected>C2v — e.g., H2O (Central C2 Oval)</option>
-                <option value="C3v">C3v — e.g., NH3 (Triangle)</option>
-                <option value="C4v">C4v — e.g., BrF5 (Square)</option>
-                <option value="C5v">C5v — e.g., [C5H5NiNO] (Pentagon)</option>
-                <option value="C6v">C6v — e.g., C6H6Cr(CO)3 (Hexagon)</option>
-              </optgroup>
-              <optgroup label="Horizontal Mirror Groups (Cnh)">
-                <option value="C2h">C2h — e.g., trans-C2H2Cl2 (Central C2 Oval)</option>
-                <option value="C3h">C3h (= S3) — e.g., B(OH)3 (Triangle)</option>
-                <option value="C4h">C4h — e.g., [PtCl4]2- deriv. (Square)</option>
-                <option value="C5h">C5h (= S5) — 5-fold + &sigma;h (Pentagon)</option>
-                <option value="C6h">C6h — 6-fold + &sigma;h + i (Hexagon)</option>
-              </optgroup>
-              <optgroup label="Prismatic / Horizontal Dihedral (Dnh)">
-                <option value="D2h">D2h — e.g., Ethylene (Central + Rim C2 Ovals)</option>
-                <option value="D3h">D3h — e.g., BF3, PCl5 (Triangle + C2' Ovals)</option>
-                <option value="D4h">D4h — e.g., XeF4, [PtCl4]2- (Square + C2' Ovals)</option>
-                <option value="D5h">D5h — e.g., Ferrocene eclipsed (Pentagon + C2' Ovals)</option>
-                <option value="D6h">D6h — e.g., Benzene C6H6 (Hexagon + C2' Ovals)</option>
-              </optgroup>
-              <optgroup label="Antiprismatic / Staggered Dihedral (Dnd)">
-                <option value="D2d">D2d — e.g., Allene (Square / S4 + C2' Ovals)</option>
-                <option value="D3d">D3d — e.g., Staggered Ethane (Hexagon / S6 + C2' Ovals)</option>
-                <option value="D4d">D4d — e.g., S8, [Re2Cl8]2- staggered (Octagon + C2' Ovals)</option>
-                <option value="D5d">D5d — e.g., Ferrocene staggered (Decagon + C2' Ovals)</option>
-                <option value="D6d">D6d — e.g., Dibenzenechromium staggered (12-gon + C2' Ovals)</option>
-              </optgroup>
-              <optgroup label="Improper Rotation Groups (Sn)">
-                <option value="S4">S4 — 4-fold improper axis (Square)</option>
-                <option value="S6">S6 — 6-fold improper axis (Hexagon)</option>
-                <option value="S8">S8 — 8-fold improper axis (Octagon)</option>
-              </optgroup>
-              <optgroup label="Cubic Groups">
-                <option value="Td">Td — Tetrahedral (CH4)</option>
-                <option value="Oh">Oh — Octahedral (SF6)</option>
-              </optgroup>
-            </select>
+                    <div class="app-launch-box">
+                        <h3>Launch the Stereographic Point Group App</h3>
+                        <p style="margin-bottom: 0;">
+                            Click the button below to open the interactive simulator in a new window:
+                        </p>
 
-            <div id="pgDescription" class="pg-desc"></div>
-          </div>
-
-          <!-- 2. SEED POINT POSITION -->
-          <div class="panel-box panel-slate">
-            <div class="panel-head">
-              <span class="panel-title">2. Seed Point Position</span>
-              <button id="btnClickPlaceMode" class="click-place-btn">Click Sphere: OFF</button>
-            </div>
-
-            <div class="slider-grid">
-              <div>
-                <div class="slider-label-row">
-                  <span>Polar &theta;:</span>
-                  <strong id="lblTheta" class="mono">45&deg;</strong>
+                        <!-- REPLACE with your actual Netlify app URL -->
+                        <div class="btn-container">
+                            <a href="https://sbstereograph.netlify.app" target="_blank" rel="noopener noreferrer" class="launch-btn">
+                                Open Stereographic App &rarr;
+                            </a>
+                            <a href="https://sbstereograph.netlify.app" target="_blank" rel="noopener noreferrer" class="direct-link">
+                                Direct Link to Simulator (Full Screen)
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <input id="sliderTheta" type="range" min="8" max="172" value="45" />
-              </div>
-              <div>
-                <div class="slider-label-row">
-                  <span>Azimuth &phi;:</span>
-                  <strong id="lblPhi" class="mono">25&deg;</strong>
+
+                <div class="sidebar">
+                    <h3>Quick Topics</h3>
+                    <ul>
+                        <li><b>Point Groups Covered:</b><br><i>C<sub>n</sub>, C<sub>nv</sub>, C<sub>nh</sub>, D<sub>n</sub>, D<sub>nh</sub>, D<sub>nd</sub>, S<sub>n</sub>, T<sub>d</sub>, O<sub>h</sub></i></li>
+                        <li><b>Course Relevance:</b><br>B.Sc. &amp; M.Sc. Inorganic &amp; Physical Chemistry (Symmetry &amp; Group Theory)</li>
+                        <li><b>Recommended Use:</b><br>Start with <i>C<sub>2v</sub></i> and <i>C<sub>3v</sub></i> to observe how &sigma;<sub>v</sub> reflections map poles, then explore improper axes (<i>S<sub>4</sub></i>, <i>S<sub>6</sub></i>).</li>
+                        <li><a href="UG_chemistry.html">&larr; Back to UG Chemistry Notes</a></li>
+                        <li><a href="chemsoft.html">Explore Other Chemistry Tools &rarr;</a></li>
+                    </ul>
                 </div>
-                <input id="sliderPhi" type="range" min="0" max="360" value="25" />
-              </div>
             </div>
 
-            <div class="mode-btn-row">
-              <button id="btnStartSingleSeed" class="mode-btn flex-1">Start with Single Seed Point</button>
-              <button id="btnShowFullGroup" class="mode-btn active">Show Full Group</button>
-            </div>
-          </div>
+            <footer>
+                &copy; Dr. Snehasis Banerjee | Department of Chemistry, Hooghly Mohsin College
+            </footer>
 
-          <!-- 3. VALID GROUP OPERATIONS -->
-          <div class="panel-box panel-white">
-            <div class="panel-head">
-              <span class="panel-title">3. Group Operations (<span id="activeGroupOpsTitle" style="color:#1d4ed8">C2v</span>)</span>
-              <span class="hint-tag">Blue: Chain | Green: Product</span>
-            </div>
-
-            <p class="ops-help">
-              Click operations in sequence (e.g., <span class="mono"><strong>C3 &rarr; &sigma;v</strong></span>). Active operations stay <strong>blue</strong>, the combined <strong>result operation turns green</strong>, and re-clicking undoes a step.
-            </p>
-
-            <div id="dynamicOpsContainer" class="ops-grid"></div>
-          </div>
-
-          <!-- OPERATION LOG -->
-          <!-- SEQUENCE / COORDINATES STATUS (MOVED HERE) -->
-          <div class="status-card mono">
-            <div class="status-head">
-              <span>Active Sequence &amp; Coordinates</span>
-              <span>Points: <strong id="pointCountBadge" style="color:#ffffff">4</strong></span>
-            </div>
-            <div id="statusOp" class="status-op">Ready — Select a Point Group or Place a Point</div>
-            <div id="statusCoords" class="status-coords">Active (+z Blue): (&theta;=45&deg;, &phi;=25&deg;) | Equator: (0.37, 0.17)</div>
-          </div>
         </div>
-      </aside>
     </div>
-
-   <!-- FOOTER -->
-	<footer>
-  <div class="footer-marquee">
-    <span class="author">Created by Dr Snehasis Banerjee, Associate Professor, Department of Chemistry, Hooghly Mohsin College</span>
-    <span class="sep">|</span>
-    <span>&copy; Snehasis Banerjee, 2026</span>
-  </div>
-	</footer>
-
-  <script>
-    // =========================================================================
-    // 1. SELF-CONTAINED 3D VECTOR & ROTATION MATH ENGINE (ZERO EXTERNAL LIBS)
-    // =========================================================================
-    const DEG2RAD = Math.PI / 180;
-    const RAD2DEG = 180 / Math.PI;
-
-    function clamp(v, min, max) {
-      return Math.max(min, Math.min(max, v));
-    }
-
-    function v3(x, y, z) {
-      return { x, y, z };
-    }
-
-    function v3Clone(a) {
-      return { x: a.x, y: a.y, z: a.z };
-    }
-
-    function v3Add(a, b) {
-      return { x: a.x + b.x, y: a.y + b.y, z: a.z + b.z };
-    }
-
-    function v3Sub(a, b) {
-      return { x: a.x - b.x, y: a.y - b.y, z: a.z - b.z };
-    }
-
-    function v3Scale(a, s) {
-      return { x: a.x * s, y: a.y * s, z: a.z * s };
-    }
-
-    function v3Dot(a, b) {
-      return a.x * b.x + a.y * b.y + a.z * b.z;
-    }
-
-    function v3Cross(a, b) {
-      return {
-        x: a.y * b.z - a.z * b.y,
-        y: a.z * b.x - a.x * b.z,
-        z: a.x * b.y - a.y * b.x
-      };
-    }
-
-    function v3Len(a) {
-      return Math.hypot(a.x, a.y, a.z);
-    }
-
-    function v3Norm(a) {
-      const l = v3Len(a) || 1;
-      return { x: a.x / l, y: a.y / l, z: a.z / l };
-    }
-
-    function v3Dist(a, b) {
-      return Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
-    }
-
-    function v3Lerp(a, b, t) {
-      return {
-        x: a.x + (b.x - a.x) * t,
-        y: a.y + (b.y - a.y) * t,
-        z: a.z + (b.z - a.z) * t
-      };
-    }
-
-    // Rodrigues' rotation formula around unit axis k by angle theta
-    function rotateAroundAxis(v, axis, angle) {
-      const k = v3Norm(axis);
-      const cosT = Math.cos(angle);
-      const sinT = Math.sin(angle);
-      const kCrossV = v3Cross(k, v);
-      const kDotV = v3Dot(k, v);
-      return {
-        x: v.x * cosT + kCrossV.x * sinT + k.x * kDotV * (1 - cosT),
-        y: v.y * cosT + kCrossV.y * sinT + k.y * kDotV * (1 - cosT),
-        z: v.z * cosT + kCrossV.z * sinT + k.z * kDotV * (1 - cosT)
-      };
-    }
-
-    function rotateZ(v, angle) {
-      const c = Math.cos(angle);
-      const s = Math.sin(angle);
-      return {
-        x: v.x * c - v.y * s,
-        y: v.x * s + v.y * c,
-        z: v.z
-      };
-    }
-
-    function sphericalToCartesian(thetaDeg, phiDeg) {
-      const theta = thetaDeg * DEG2RAD;
-      const phi = phiDeg * DEG2RAD;
-      return v3Norm({
-        x: Math.sin(theta) * Math.cos(phi),
-        y: Math.sin(theta) * Math.sin(phi),
-        z: Math.cos(theta)
-      });
-    }
-
-    function cartesianToSphericalDeg(vec) {
-      const v = v3Norm(vec);
-      const theta = Math.acos(clamp(v.z, -1, 1)) * RAD2DEG;
-      let phi = Math.atan2(v.y, v.x) * RAD2DEG;
-      if (phi < 0) phi += 360;
-      return { theta, phi };
-    }
-
-    // =========================================================================
-    // 2. CHEMICAL POINT GROUP DEFINITIONS (TABLE 3-6.3)
-    // =========================================================================
-    function supNum(n) {
-      const map = { "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹" };
-      return String(n).split("").map(c => map[c] || c).join("");
-    }
-
-    function makeCnOps(n) {
-      const list = [];
-      for (let k = 1; k < n; k++) {
-        list.push({
-          id: `C_${n}_${k}`,
-          label: k === 1 ? `C${n}` : `C${n}${supNum(k)}`,
-          type: "rotZ",
-          angle: (2 * Math.PI * k) / n,
-          flipsZ: false
-        });
-      }
-      return list;
-    }
-
-    function makeSnOps(m, skipEven = true) {
-      const list = [];
-      for (let k = 1; k < m; k++) {
-        if (skipEven && k % 2 === 0) continue;
-        list.push({
-          id: `S_${m}_${k}`,
-          label: k === 1 ? `S${m}` : `S${m}${supNum(k)}`,
-          type: "improperZ",
-          angle: (2 * Math.PI * k) / m,
-          flipsZ: k % 2 === 1
-        });
-      }
-      return list;
-    }
-
-    function makeSigmaVOps(count, offsetRad = 0, prefix = "σv") {
-      const list = [];
-      for (let k = 0; k < count; k++) {
-        const theta = offsetRad + (Math.PI * k) / count;
-        const deg = Math.round(theta * RAD2DEG);
-        let tag = prefix;
-        if (prefix === "σv/d") {
-          tag = k % 2 === 0 ? "σv" : "σd";
-        }
-        list.push({
-          id: `sigma_${prefix}_${k}`,
-          label: `${tag}(${deg}°)`,
-          type: "mirrorV",
-          planeAngle: theta,
-          flipsZ: false
-        });
-      }
-      return list;
-    }
-
-    function makeC2PrimeOps(count, offsetRad = 0) {
-      const list = [];
-      for (let k = 0; k < count; k++) {
-        const theta = offsetRad + (Math.PI * k) / count;
-        const deg = Math.round(theta * RAD2DEG);
-        list.push({
-          id: `C2p_${k}`,
-          label: `C2'(${deg}°)`,
-          type: "rotXY",
-          axisAngle: theta,
-          flipsZ: true
-        });
-      }
-      return list;
-    }
-
-    const OP_E = { id: "E", label: "E", type: "identity", flipsZ: false };
-    const OP_SIGMA_H = { id: "sigma_h", label: "σh", type: "mirrorH", flipsZ: true };
-    const OP_INV = { id: "inv", label: "i", type: "inversion", flipsZ: true };
-
-    const POINT_GROUPS = {
-      C1:  { name: "C1", desc: "E (Identity only).", order: 1, n: 1, polySides: 0, polyLabel: "Single Point", ops: [OP_E] },
-      Cs:  { name: "Cs", desc: "E, σh (same as C1v, C1h, S1).", order: 2, n: 1, sigmaH: true, polySides: 0, polyLabel: "Mirror Pair", ops: [OP_E, OP_SIGMA_H] },
-      Ci:  { name: "Ci", desc: "E, i (same as S2).", order: 2, n: 1, inv: true, polySides: 0, polyLabel: "Inversion Pair", ops: [OP_E, OP_INV] },
-
-      C2:  { name: "C2", desc: "E, C2.", order: 2, n: 2, polySides: 2, polyLabel: "Central C2 Oval", ops: [OP_E, ...makeCnOps(2)] },
-      C3:  { name: "C3", desc: "E, C3, C3².", order: 3, n: 3, polySides: 3, polyLabel: "Equatorial Triangle", ops: [OP_E, ...makeCnOps(3)] },
-      C4:  { name: "C4", desc: "E, C4, C2, C4³.", order: 4, n: 4, polySides: 4, polyLabel: "Equatorial Square", ops: [OP_E, ...makeCnOps(4)] },
-      C5:  { name: "C5", desc: "E, C5, C5², C5³, C5⁴.", order: 5, n: 5, polySides: 5, polyLabel: "Equatorial Pentagon", ops: [OP_E, ...makeCnOps(5)] },
-      C6:  { name: "C6", desc: "E, C6, C3, C2, C3², C6⁵.", order: 6, n: 6, polySides: 6, polyLabel: "Equatorial Hexagon", ops: [OP_E, ...makeCnOps(6)] },
-      C7:  { name: "C7", desc: "E, C7, C7², C7³, C7⁴, C7⁵, C7⁶.", order: 7, n: 7, polySides: 7, polyLabel: "Equatorial Heptagon", ops: [OP_E, ...makeCnOps(7)] },
-      C8:  { name: "C8", desc: "E, C8, C4, C8³, C2, C8⁵, C4³, C8⁷.", order: 8, n: 8, polySides: 8, polyLabel: "Equatorial Octagon", ops: [OP_E, ...makeCnOps(8)] },
-
-      D2:  { name: "D2", desc: "E, three mutually perpendicular C2 axes.", order: 4, n: 2, dihedral: true, polySides: 2, polyLabel: "Central + Rim C2 Ovals", ops: [OP_E, ...makeCnOps(2), ...makeC2PrimeOps(2, 0)] },
-      D3:  { name: "D3", desc: "E, C3, C3², three perpendicular C2' axes.", order: 6, n: 3, dihedral: true, polySides: 3, polyLabel: "Triangle + C2' Ovals", ops: [OP_E, ...makeCnOps(3), ...makeC2PrimeOps(3, 0)] },
-      D4:  { name: "D4", desc: "E, C4, C2, C4³, four perpendicular C2' axes.", order: 8, n: 4, dihedral: true, polySides: 4, polyLabel: "Square + C2' Ovals", ops: [OP_E, ...makeCnOps(4), ...makeC2PrimeOps(4, 0)] },
-      D5:  { name: "D5", desc: "E, C5, C5², C5³, C5⁴, five perpendicular C2' axes.", order: 10, n: 5, dihedral: true, polySides: 5, polyLabel: "Pentagon + C2' Ovals", ops: [OP_E, ...makeCnOps(5), ...makeC2PrimeOps(5, 0)] },
-      D6:  { name: "D6", desc: "E, C6, C3, C2, C3², C6⁵, six perpendicular C2' axes.", order: 12, n: 6, dihedral: true, polySides: 6, polyLabel: "Hexagon + C2' Ovals", ops: [OP_E, ...makeCnOps(6), ...makeC2PrimeOps(6, 0)] },
-
-      C2v: { name: "C2v", desc: "E, C2, two vertical mirror planes (σv).", order: 4, n: 2, sigmaV: 2, polySides: 2, polyLabel: "Central C2 Oval", ops: [OP_E, ...makeCnOps(2), ...makeSigmaVOps(2, 0, "σv")] },
-      C3v: { name: "C3v", desc: "E, C3, C3², three vertical mirror planes (σv).", order: 6, n: 3, sigmaV: 3, polySides: 3, polyLabel: "Equatorial Triangle", ops: [OP_E, ...makeCnOps(3), ...makeSigmaVOps(3, 0, "σv")] },
-      C4v: { name: "C4v", desc: "E, C4, C2, C4³, four vertical mirror planes (2 σv + 2 σd).", order: 8, n: 4, sigmaV: 4, polySides: 4, polyLabel: "Equatorial Square", ops: [OP_E, ...makeCnOps(4), ...makeSigmaVOps(4, 0, "σv/d")] },
-      C5v: { name: "C5v", desc: "E, C5, C5², C5³, C5⁴, five vertical mirror planes (σv).", order: 10, n: 5, sigmaV: 5, polySides: 5, polyLabel: "Equatorial Pentagon", ops: [OP_E, ...makeCnOps(5), ...makeSigmaVOps(5, 0, "σv")] },
-      C6v: { name: "C6v", desc: "E, C6, C3, C2, C3², C6⁵, six vertical mirror planes (3 σv + 3 σd).", order: 12, n: 6, sigmaV: 6, polySides: 6, polyLabel: "Equatorial Hexagon", ops: [OP_E, ...makeCnOps(6), ...makeSigmaVOps(6, 0, "σv/d")] },
-
-      C2h: { name: "C2h", desc: "E, C2, i, σh.", order: 4, n: 2, sigmaH: true, inv: true, polySides: 2, polyLabel: "Central C2 Oval", ops: [OP_E, ...makeCnOps(2), OP_INV, OP_SIGMA_H] },
-      C3h: { name: "C3h", desc: "E, C3, C3², S3, S3⁵, σh (same as S3).", order: 6, n: 3, sigmaH: true, polySides: 3, polyLabel: "Equatorial Triangle", ops: [OP_E, ...makeCnOps(3), ...makeSnOps(3, false), OP_SIGMA_H] },
-      C4h: { name: "C4h", desc: "E, C4, C2, C4³, S4, S4³, σh, i.", order: 8, n: 4, sigmaH: true, inv: true, polySides: 4, polyLabel: "Equatorial Square", ops: [OP_E, ...makeCnOps(4), ...makeSnOps(4, true), OP_SIGMA_H, OP_INV] },
-      C5h: { name: "C5h", desc: "E, C5..C5⁴, S5, S5³, S5⁷, S5⁹, σh (same as S5).", order: 10, n: 5, sigmaH: true, polySides: 5, polyLabel: "Equatorial Pentagon", ops: [OP_E, ...makeCnOps(5), ...makeSnOps(5, false), OP_SIGMA_H] },
-      C6h: { name: "C6h", desc: "E, C6..C6⁵, S3, S6, S6⁵, S3², σh, i.", order: 12, n: 6, sigmaH: true, inv: true, polySides: 6, polyLabel: "Equatorial Hexagon", ops: [OP_E, ...makeCnOps(6), ...makeSnOps(6, true), OP_SIGMA_H, OP_INV] },
-
-      D2h: { name: "D2h", desc: "E, three C2 axes, i, three mutually perpendicular σ planes.", order: 8, n: 2, dihedral: true, sigmaH: true, sigmaV: 2, inv: true, polySides: 2, polyLabel: "Central + Rim C2 Ovals", ops: [OP_E, ...makeCnOps(2), ...makeC2PrimeOps(2, 0), OP_INV, OP_SIGMA_H, ...makeSigmaVOps(2, 0, "σv")] },
-      D3h: { name: "D3h", desc: "E, C3, C3², S3, S3⁵, three C2', σh, three σv.", order: 12, n: 3, dihedral: true, sigmaH: true, sigmaV: 3, polySides: 3, polyLabel: "Triangle + C2' Ovals", ops: [OP_E, ...makeCnOps(3), ...makeSnOps(3, false), ...makeC2PrimeOps(3, 0), OP_SIGMA_H, ...makeSigmaVOps(3, 0, "σv")] },
-      D4h: { name: "D4h", desc: "E, C4, C2, C4³, S4, S4³, four C2', i, σh, four vertical σ (2 σv + 2 σd).", order: 16, n: 4, dihedral: true, sigmaH: true, sigmaV: 4, inv: true, polySides: 4, polyLabel: "Square + C2' Ovals", ops: [OP_E, ...makeCnOps(4), ...makeSnOps(4, true), ...makeC2PrimeOps(4, 0), OP_INV, OP_SIGMA_H, ...makeSigmaVOps(4, 0, "σv/d")] },
-      D5h: { name: "D5h", desc: "E, C5..C5⁴, S5..S5⁹, five C2', σh, five σv.", order: 20, n: 5, dihedral: true, sigmaH: true, sigmaV: 5, polySides: 5, polyLabel: "Pentagon + C2' Ovals", ops: [OP_E, ...makeCnOps(5), ...makeSnOps(5, false), ...makeC2PrimeOps(5, 0), OP_SIGMA_H, ...makeSigmaVOps(5, 0, "σv")] },
-      D6h: { name: "D6h", desc: "E, C6..C6⁵, S3, S6, S6⁵, S3², six C2', i, σh, six vertical σ (3 σv + 3 σd).", order: 24, n: 6, dihedral: true, sigmaH: true, sigmaV: 6, inv: true, polySides: 6, polyLabel: "Hexagon + C2' Ovals", ops: [OP_E, ...makeCnOps(6), ...makeSnOps(6, true), ...makeC2PrimeOps(6, 0), OP_INV, OP_SIGMA_H, ...makeSigmaVOps(6, 0, "σv/d")] },
-
-      D2d: { name: "D2d", desc: "E, C2, S4, S4³, two perpendicular C2', two σd.", order: 8, n: 2, dihedral: true, sigmaV: 2, sigmaOffset: Math.PI / 4, improper: 4, polySides: 4, innerSides: 2, polyLabel: "C2 Oval in S4 Square + C2'", ops: [OP_E, ...makeCnOps(2), ...makeSnOps(4, true), ...makeC2PrimeOps(2, 0), ...makeSigmaVOps(2, Math.PI / 4, "σd")] },
-      D3d: { name: "D3d", desc: "E, C3, C3², S6, S6⁵, three C2', i, three σd.", order: 12, n: 3, dihedral: true, sigmaV: 3, sigmaOffset: Math.PI / 6, inv: true, improper: 6, polySides: 6, innerSides: 3, polyLabel: "Triangle in S6 Hexagon + C2'", ops: [OP_E, ...makeCnOps(3), ...makeSnOps(6, true), ...makeC2PrimeOps(3, 0), OP_INV, ...makeSigmaVOps(3, Math.PI / 6, "σd")] },
-      D4d: { name: "D4d", desc: "E, C4, C2, C4³, S8, S8³, S8⁵, S8⁷, four C2', four σd.", order: 16, n: 4, dihedral: true, sigmaV: 4, sigmaOffset: Math.PI / 8, improper: 8, polySides: 8, innerSides: 4, polyLabel: "Square in S8 Octagon + C2'", ops: [OP_E, ...makeCnOps(4), ...makeSnOps(8, true), ...makeC2PrimeOps(4, 0), ...makeSigmaVOps(4, Math.PI / 8, "σd")] },
-      D5d: { name: "D5d", desc: "E, C5..C5⁴, S10, S10³, S10⁷, S10⁹, five C2', i, five σd.", order: 20, n: 5, dihedral: true, sigmaV: 5, sigmaOffset: Math.PI / 10, inv: true, improper: 10, polySides: 10, innerSides: 5, polyLabel: "Pentagon in S10 Decagon + C2'", ops: [OP_E, ...makeCnOps(5), ...makeSnOps(10, true), ...makeC2PrimeOps(5, 0), OP_INV, ...makeSigmaVOps(5, Math.PI / 10, "σd")] },
-      D6d: { name: "D6d", desc: "E, C6..C6⁵, S12, S12³, S12⁵, S12⁷, S12⁹, S12¹¹, six C2', six σd.", order: 24, n: 6, dihedral: true, sigmaV: 6, sigmaOffset: Math.PI / 12, improper: 12, polySides: 12, innerSides: 6, polyLabel: "Hexagon in S12 12-gon + C2'", ops: [OP_E, ...makeCnOps(6), ...makeSnOps(12, true), ...makeC2PrimeOps(6, 0), ...makeSigmaVOps(6, Math.PI / 12, "σd")] },
-
-      S4:  { name: "S4", desc: "E, C2, S4, S4³.", order: 4, n: 2, improper: 4, polySides: 4, innerSides: 2, polyLabel: "C2 Oval in S4 Square", ops: [OP_E, ...makeCnOps(2), ...makeSnOps(4, true)] },
-      S6:  { name: "S6", desc: "E, C3, C3², S6, S6⁵, i.", order: 6, n: 3, improper: 6, inv: true, polySides: 6, innerSides: 3, polyLabel: "Triangle in S6 Hexagon", ops: [OP_E, ...makeCnOps(3), ...makeSnOps(6, true), OP_INV] },
-      S8:  { name: "S8", desc: "E, C4, C2, C4³, S8, S8³, S8⁵, S8⁷.", order: 8, n: 4, improper: 8, polySides: 8, innerSides: 4, polyLabel: "Square in S8 Octagon", ops: [OP_E, ...makeCnOps(4), ...makeSnOps(8, true)] },
-
-      Td:  { name: "Td", desc: "E, four C3-C3², three C2-S4-S4³, six σd.", order: 24, cubic: "Td", n: 2, sigmaV: 2, sigmaOffset: Math.PI / 4, polySides: 4, innerSides: 2, polyLabel: "C2 Oval in S4 Square", ops: [OP_E, ...makeCnOps(3), ...makeCnOps(2), ...makeSnOps(4, true), ...makeC2PrimeOps(2, 0), ...makeSigmaVOps(2, Math.PI / 4, "σd")] },
-      Oh:  { name: "Oh", desc: "E, four C3-C3²-S6-S6⁵, three C4-C2-C4³-S4-S4³, six C2', i, three σh, six σd.", order: 48, cubic: "Oh", n: 4, sigmaH: true, sigmaV: 4, inv: true, polySides: 4, polyLabel: "Octahedral Square", ops: [OP_E, ...makeCnOps(4), ...makeSnOps(4, true), ...makeCnOps(3), ...makeSnOps(6, true), ...makeC2PrimeOps(4, 0), OP_INV, OP_SIGMA_H, ...makeSigmaVOps(4, 0, "σv/d")] }
-    };
-
-    function deduplicateVectors(vectors, tol = 1e-3) {
-      const unique = [];
-      for (const v of vectors) {
-        if (!unique.some(u => v3Dist(u, v) < tol)) {
-          unique.push(v3Norm(v));
-        }
-      }
-      return unique;
-    }
-
-    function generateGroupOrbit(groupKey, seedVec) {
-      const pg = POINT_GROUPS[groupKey] || POINT_GROUPS.C2v;
-      let pts = [v3Norm(seedVec)];
-
-      if (pg.cubic) {
-        const perms = [
-          [0, 1, 2, 1], [1, 2, 0, 1], [2, 0, 1, 1],
-          [0, 2, 1, -1], [2, 1, 0, -1], [1, 0, 2, -1]
-        ];
-        const signs = [
-          [1, 1, 1], [1, -1, -1], [-1, 1, -1], [-1, -1, 1],
-          [-1, -1, -1], [-1, 1, 1], [1, -1, 1], [1, 1, -1]
-        ];
-        const cubicPts = [];
-        for (const p of perms) {
-          const arr = [seedVec.x, seedVec.y, seedVec.z];
-          const base = [arr[p[0]], arr[p[1]], arr[p[2]]];
-          const parity = p[3];
-          for (const s of signs) {
-            const det = parity * s[0] * s[1] * s[2];
-            if (pg.cubic === "Oh" || (pg.cubic === "Td" && det === 1)) {
-              cubicPts.push(v3(base[0] * s[0], base[1] * s[1], base[2] * s[2]));
-            }
-          }
-        }
-        return deduplicateVectors(cubicPts);
-      }
-
-      const n = pg.n || 1;
-      const rotPts = [];
-      for (let k = 0; k < n; k++) {
-        const angle = (2 * Math.PI * k) / n;
-        for (const v of pts) {
-          rotPts.push(rotateZ(v, angle));
-        }
-      }
-      pts = deduplicateVectors(rotPts);
-
-      if (pg.improper) {
-        const sn = pg.improper;
-        const snPts = [...pts];
-        for (let k = 1; k < sn; k += 2) {
-          const angle = (2 * Math.PI * k) / sn;
-          for (const v of pts) {
-            const r = rotateZ(v, angle);
-            r.z = -r.z;
-            snPts.push(r);
-          }
-        }
-        pts = deduplicateVectors(snPts);
-      }
-
-      if (pg.dihedral) {
-        const dPts = [...pts];
-        for (const v of pts) {
-          dPts.push(v3(v.x, -v.y, -v.z));
-        }
-        pts = deduplicateVectors(dPts);
-      }
-
-      if (pg.sigmaV > 0) {
-        const vPts = [...pts];
-        const offset = pg.sigmaOffset || 0;
-        const nx = -Math.sin(offset);
-        const ny = Math.cos(offset);
-        for (const v of pts) {
-          const dot = v.x * nx + v.y * ny;
-          vPts.push(v3(v.x - 2 * dot * nx, v.y - 2 * dot * ny, v.z));
-        }
-        pts = deduplicateVectors(vPts);
-      }
-
-      if (pg.sigmaH) {
-        const hPts = [...pts];
-        for (const v of pts) {
-          hPts.push(v3(v.x, v.y, -v.z));
-        }
-        pts = deduplicateVectors(hPts);
-      }
-
-      if (pg.inv) {
-        const iPts = [...pts];
-        for (const v of pts) {
-          iPts.push(v3(-v.x, -v.y, -v.z));
-        }
-        pts = deduplicateVectors(iPts);
-      }
-
-      return pts;
-    }
-
-    function applyOpInstant(vec, opObj) {
-      const v = v3Norm(vec);
-      switch (opObj.type) {
-        case "identity":
-          return v;
-        case "rotZ":
-          return v3Norm(rotateZ(v, opObj.angle));
-        case "rotXY": {
-          const axis = v3(Math.cos(opObj.axisAngle), Math.sin(opObj.axisAngle), 0);
-          return v3Norm(rotateAroundAxis(v, axis, Math.PI));
-        }
-        case "mirrorH":
-          return v3Norm(v3(v.x, v.y, -v.z));
-        case "mirrorV": {
-          const nx = -Math.sin(opObj.planeAngle);
-          const ny = Math.cos(opObj.planeAngle);
-          const dot = v.x * nx + v.y * ny;
-          return v3Norm(v3(v.x - 2 * dot * nx, v.y - 2 * dot * ny, v.z));
-        }
-        case "inversion":
-          return v3Norm(v3(-v.x, -v.y, -v.z));
-        case "improperZ": {
-          const r = rotateZ(v, opObj.angle);
-          if (opObj.flipsZ) r.z = -r.z;
-          return v3Norm(r);
-        }
-        default:
-          return v;
-      }
-    }
-
-    // =========================================================================
-    // 3. STANDALONE HTML5 CANVAS 3D PROJECTION & RENDERING ENGINE
-    // =========================================================================
-    const canvas = document.getElementById("simCanvas");
-    const ctx = canvas.getContext("2d");
-    const container = document.getElementById("canvasContainer");
-
-    const COLOR_UPPER = "#2563eb";
-    const COLOR_LOWER = "#dc2626";
-
-    let cameraState = {
-      yaw: -0.78,      // azimuth around Z
-      pitch: 0.56,     // elevation angle above XY plane
-      zoom: 1.0,
-      worldSpinZ: 0
-    };
-
-    let state = {
-      mode: "group",
-      isTop2DView: false,
-      groupKey: "C2v",
-      seedTheta: 45,
-      seedPhi: 25,
-      points: [],
-      opChain: [],
-      autoRevolve: false,
-      clickPlaceMode: false
-    };
-
-    let activeAnimations = [];
-
-    // Project 3D world point (Z-up) to 2D canvas coordinates
-    function project3D(pt, width, height) {
-      const spun = rotateZ(pt, cameraState.worldSpinZ);
-      const cy = Math.cos(cameraState.yaw);
-      const sy = Math.sin(cameraState.yaw);
-      const cp = Math.cos(cameraState.pitch);
-      const sp = Math.sin(cameraState.pitch);
-
-      // Rotate around Z by -yaw so camera looks along +Y'
-      const x1 = spun.x * cy - spun.y * sy;
-      const y1 = spun.x * sy + spun.y * cy;
-      const z1 = spun.z;
-
-      // Tilt by pitch around X'
-      const y2 = y1 * cp - z1 * sp; // depth into screen
-      const z2 = y1 * sp + z1 * cp; // screen up
-
-      const baseRadius = Math.min(width, height) * 0.34 * cameraState.zoom;
-      const fov = 5.2;
-      const persp = state.isTop2DView ? 1.0 : fov / (fov + y2);
-
-      return {
-        sx: width * 0.5 + x1 * baseRadius * persp,
-        sy: height * 0.5 - z2 * baseRadius * persp,
-        depth: y2,
-        scale: persp,
-        baseRadius
-      };
-    }
-
-    // Unproject screen click onto the front hemisphere of the unit sphere
-    function unprojectClickToSphere(clientX, clientY) {
-      const rect = canvas.getBoundingClientRect();
-      const width = rect.width;
-      const height = rect.height;
-      const baseRadius = Math.min(width, height) * 0.34 * cameraState.zoom;
-
-      const x1 = (clientX - rect.left - width * 0.5) / baseRadius;
-      const z2 = -(clientY - rect.top - height * 0.5) / baseRadius;
-      const rSq = x1 * x1 + z2 * z2;
-      if (rSq > 1.0) return null;
-
-      // Front hemisphere faces toward -Y' (closer to camera)
-      const y2 = -Math.sqrt(Math.max(0, 1.0 - rSq));
-      const cp = Math.cos(cameraState.pitch);
-      const sp = Math.sin(cameraState.pitch);
-      const y1 = y2 * cp + z2 * sp;
-      const z1 = -y2 * sp + z2 * cp;
-
-      const cy = Math.cos(cameraState.yaw);
-      const sy = Math.sin(cameraState.yaw);
-      const spun = {
-        x: x1 * cy + y1 * sy,
-        y: -x1 * sy + y1 * cy,
-        z: z1
-      };
-      return v3Norm(rotateZ(spun, -cameraState.worldSpinZ));
-    }
-
-    // Draw a 3D polyline projected onto the 2D canvas
-    function draw3DPolyline(pts, width, height, strokeStyle, lineWidth = 1.5, dash = []) {
-      if (!pts || pts.length < 2) return;
-      ctx.save();
-      ctx.beginPath();
-      ctx.setLineDash(dash);
-      pts.forEach((p, idx) => {
-        const pr = project3D(p, width, height);
-        if (idx === 0) ctx.moveTo(pr.sx, pr.sy);
-        else ctx.lineTo(pr.sx, pr.sy);
-      });
-      ctx.strokeStyle = strokeStyle;
-      ctx.lineWidth = lineWidth;
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    // Draw a filled crystallographic oval on the Z=0 equatorial plane.
-    // axisAngle is the direction of the C2 axis; major axis is perpendicular to C2 (tangent to rim).
-    function drawEquatorialOval(cx, cy, axisAngle, majorRadius, minorRadius, width, height, fillStyle) {
-      const tx = -Math.sin(axisAngle); // tangent (major axis)
-      const ty = Math.cos(axisAngle);
-      const rx = Math.cos(axisAngle);  // radial along C2 (minor axis)
-      const ry = Math.sin(axisAngle);
-
-      const segs = 28;
-      ctx.save();
-      ctx.beginPath();
-      for (let i = 0; i <= segs; i++) {
-        const a = (i / segs) * Math.PI * 2;
-        const ca = Math.cos(a) * majorRadius;
-        const sa = Math.sin(a) * minorRadius;
-        const pt = v3(
-          cx + ca * tx + sa * rx,
-          cy + ca * ty + sa * ry,
-          0.003
-        );
-        const pr = project3D(pt, width, height);
-        if (i === 0) ctx.moveTo(pr.sx, pr.sy);
-        else ctx.lineTo(pr.sx, pr.sy);
-      }
-      ctx.closePath();
-      ctx.fillStyle = fillStyle;
-      ctx.fill();
-      ctx.restore();
-    }
-
-    // True Stereographic Projection onto Z=0 plane:
-    // Upper hemisphere (+z) projects toward South Pole (0,0,-1) -> X = x/(1+z), Y = y/(1+z)
-    // Lower hemisphere (-z) projects toward North Pole (0,0,+1) -> X = x/(1+|z|), Y = y/(1+|z|)
-    function getStereographicEquatorPoint(pt) {
-      const denom = 1 + Math.abs(pt.z);
-      return v3(pt.x / denom, pt.y / denom, 0);
-    }
-
-    function getTargetPole(pt) {
-      return pt.z >= -1e-5 ? v3(0, 0, -1) : v3(0, 0, 1);
-    }
-
-    // Draw a 3D shaded glossy sphere at screen position (sx, sy)
-    function draw3DShadedSphere(sx, sy, radius, isUpper, isHighlighted = false) {
-      ctx.save();
-      // Soft cast shadow on globe surface
-      ctx.beginPath();
-      ctx.arc(sx + 2.0, sy + 2.6, radius, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(15, 23, 42, 0.30)";
-      ctx.fill();
-
-      // 3D specular radial highlight gradient
-      const grad = ctx.createRadialGradient(
-        sx - radius * 0.36,
-        sy - radius * 0.36,
-        radius * 0.08,
-        sx,
-        sy,
-        radius
-      );
-      if (isUpper) {
-        grad.addColorStop(0, "#ffffff");
-        grad.addColorStop(0.22, "#93c5fd");
-        grad.addColorStop(0.58, "#2563eb");
-        grad.addColorStop(1, "#0f172a");
-      } else {
-        grad.addColorStop(0, "#ffffff");
-        grad.addColorStop(0.22, "#fca5a5");
-        grad.addColorStop(0.58, "#dc2626");
-        grad.addColorStop(1, "#450a0a");
-      }
-
-      ctx.beginPath();
-      ctx.arc(sx, sy, radius, 0, Math.PI * 2);
-      ctx.fillStyle = grad;
-      ctx.fill();
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.85)";
-      ctx.lineWidth = 1.0;
-      ctx.stroke();
-
-      if (isHighlighted) {
-        ctx.beginPath();
-        ctx.arc(sx, sy, radius + 3.5, 0, Math.PI * 2);
-        ctx.strokeStyle = "#f59e0b";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-      }
-      ctx.restore();
-    }
-
-    // Draw a regular polygon centered at (0,0,0.002)
-    function drawRegularPolygon(sides, radius, startOffset, width, height, fillStyle, strokeStyle, lineWidth = 2.2) {
-      const polyPts = [];
-      for (let i = 0; i <= sides; i++) {
-        const a = startOffset + (2 * Math.PI * i) / sides;
-        polyPts.push(v3(radius * Math.cos(a), radius * Math.sin(a), 0.002));
-      }
-      ctx.save();
-      ctx.beginPath();
-      polyPts.forEach((p, idx) => {
-        const pr = project3D(p, width, height);
-        if (idx === 0) ctx.moveTo(pr.sx, pr.sy);
-        else ctx.lineTo(pr.sx, pr.sy);
-      });
-      ctx.closePath();
-      if (fillStyle) {
-        ctx.fillStyle = fillStyle;
-        ctx.fill();
-      }
-      if (strokeStyle) {
-        ctx.strokeStyle = strokeStyle;
-        ctx.lineWidth = lineWidth;
-        ctx.stroke();
-      }
-      ctx.restore();
-    }
-
-    function renderScene(now) {
-      const rect = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const targetW = Math.max(1, Math.floor(rect.width * dpr));
-      const targetH = Math.max(1, Math.floor(rect.height * dpr));
-      if (canvas.width !== targetW || canvas.height !== targetH) {
-        canvas.width = targetW;
-        canvas.height = targetH;
-      }
-
-      ctx.save();
-      ctx.scale(dpr, dpr);
-      const W = rect.width;
-      const H = rect.height;
-      ctx.clearRect(0, 0, W, H);
-
-      const pg = POINT_GROUPS[state.groupKey] || POINT_GROUPS.C2v;
-      const centerPr = project3D(v3(0, 0, 0), W, H);
-
-      // 1. Back hemisphere latitude & longitude rings (3D mode only)
-      if (!state.isTop2DView) {
-        const grad = ctx.createRadialGradient(
-          centerPr.sx - centerPr.baseRadius * 0.25,
-          centerPr.sy - centerPr.baseRadius * 0.25,
-          centerPr.baseRadius * 0.1,
-          centerPr.sx,
-          centerPr.sy,
-          centerPr.baseRadius
-        );
-        grad.addColorStop(0, "rgba(255, 255, 255, 0.48)");
-        grad.addColorStop(0.75, "rgba(224, 242, 254, 0.28)");
-        grad.addColorStop(1, "rgba(186, 230, 253, 0.36)");
-        ctx.beginPath();
-        ctx.arc(centerPr.sx, centerPr.sy, centerPr.baseRadius, 0, Math.PI * 2);
-        ctx.fillStyle = grad;
-        ctx.fill();
-
-        const latAngles = [-60, -30, 30, 60];
-        latAngles.forEach(latDeg => {
-          const zVal = Math.sin(latDeg * DEG2RAD);
-          const rVal = Math.cos(latDeg * DEG2RAD);
-          const ring = [];
-          for (let i = 0; i <= 72; i++) {
-            const a = (i / 72) * Math.PI * 2;
-            ring.push(v3(rVal * Math.cos(a), rVal * Math.sin(a), zVal));
-          }
-          draw3DPolyline(ring, W, H, "rgba(148, 163, 184, 0.32)", 1);
-        });
-
-        for (let m = 0; m < 6; m++) {
-          const phi = (m * Math.PI) / 6;
-          const merid = [];
-          for (let i = 0; i <= 72; i++) {
-            const th = (i / 72) * Math.PI * 2;
-            merid.push(v3(Math.sin(th) * Math.cos(phi), Math.sin(th) * Math.sin(phi), Math.cos(th)));
-          }
-          draw3DPolyline(merid, W, H, "rgba(148, 163, 184, 0.26)", 1);
-        }
-      }
-
-      // 2. Equatorial Disk (Z = 0 Stereogram Plane)
-      const eqCirclePts = [];
-      for (let i = 0; i <= 128; i++) {
-        const a = (i / 128) * Math.PI * 2;
-        eqCirclePts.push(v3(Math.cos(a), Math.sin(a), 0));
-      }
-
-      ctx.save();
-      ctx.beginPath();
-      eqCirclePts.forEach((p, i) => {
-        const pr = project3D(p, W, H);
-        if (i === 0) ctx.moveTo(pr.sx, pr.sy);
-        else ctx.lineTo(pr.sx, pr.sy);
-      });
-      ctx.closePath();
-      ctx.fillStyle = state.isTop2DView ? "rgba(255, 255, 255, 0.94)" : "rgba(255, 255, 255, 0.72)";
-      ctx.fill();
-      ctx.restore();
-
-      if (state.isTop2DView) {
-        if (pg.sigmaH) {
-          draw3DPolyline(eqCirclePts, W, H, "#059669", 3.6, []);
-        } else {
-          draw3DPolyline(eqCirclePts, W, H, "#0f172a", 2.2, [7, 5]);
-        }
-      } else {
-        if (pg.sigmaH) {
-          draw3DPolyline(eqCirclePts, W, H, "#0d9488", 3.0, []);
-        } else {
-          draw3DPolyline(eqCirclePts, W, H, "#334155", 2.0, []);
-        }
-      }
-
-      // 3. Cartesian Reference Axes (+X, +Y, and +Z in 3D mode)
-      draw3DPolyline([v3(-1.22, 0, 0), v3(1.22, 0, 0)], W, H, "rgba(100, 116, 139, 0.45)", 1);
-      draw3DPolyline([v3(0, -1.22, 0), v3(0, 1.22, 0)], W, H, "rgba(100, 116, 139, 0.45)", 1);
-
-      const prX = project3D(v3(1.32, 0, 0), W, H);
-      const prY = project3D(v3(0, 1.32, 0), W, H);
-      ctx.fillStyle = "#475569";
-      ctx.font = "bold 11px sans-serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText("+X", prX.sx, prX.sy);
-      ctx.fillText("+Y", prY.sx, prY.sy);
-
-      if (!state.isTop2DView) {
-        draw3DPolyline([v3(0, 0, -1.32), v3(0, 0, 1.32)], W, H, "rgba(71, 85, 105, 0.55)", 1.2);
-        if (pg.n > 1 || pg.cubic || pg.improper) {
-          draw3DPolyline([v3(0, 0, -1.25), v3(0, 0, 1.25)], W, H, "#0d9488", 2.6);
-        }
-
-        const prN = project3D(v3(0, 0, 1), W, H);
-        const prS = project3D(v3(0, 0, -1), W, H);
-        ctx.beginPath();
-        ctx.arc(prN.sx, prN.sy, 4.2, 0, Math.PI * 2);
-        ctx.fillStyle = COLOR_UPPER;
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(prS.sx, prS.sy, 4.2, 0, Math.PI * 2);
-        ctx.fillStyle = COLOR_LOWER;
-        ctx.fill();
-
-        const lblN = project3D(v3(0, 0, 1.44), W, H);
-        const lblS = project3D(v3(0, 0, -1.44), W, H);
-        ctx.font = "bold 12px sans-serif";
-        ctx.fillStyle = "#1d4ed8";
-        ctx.fillText("+Z (Upper Blue)", lblN.sx, lblN.sy);
-        ctx.fillStyle = "#dc2626";
-        ctx.fillText("−Z (Lower Red)", lblS.sx, lblS.sy);
-      }
-
-      // 4. Symmetry Elements: Vertical Mirror Planes (sigma_v / sigma_d)
-      if (pg.sigmaV > 0) {
-        const count = pg.sigmaV;
-        const offset = pg.sigmaOffset || 0;
-        for (let k = 0; k < count; k++) {
-          const angle = offset + (Math.PI * k) / count;
-          const dx = Math.cos(angle);
-          const dy = Math.sin(angle);
-          draw3DPolyline([v3(-dx * 1.04, -dy * 1.04, 0), v3(dx * 1.04, dy * 1.04, 0)], W, H, "#0d9488", 1.8);
-
-          if (!state.isTop2DView) {
-            const arcPts = [];
-            for (let i = 0; i <= 48; i++) {
-              const t = (i / 48) * Math.PI * 2;
-              arcPts.push(v3(dx * Math.cos(t), dy * Math.cos(t), Math.sin(t)));
-            }
-            draw3DPolyline(arcPts, W, H, "rgba(13, 148, 136, 0.26)", 1.2);
-          }
-        }
-      }
-
-      // 5. Perpendicular C2' Axes + TWO SMALL BLACK OVALS AT BOTH ENDS
-      if (pg.dihedral) {
-        const c2Count = pg.n || 2;
-        for (let k = 0; k < c2Count; k++) {
-          const angle = (Math.PI * k) / c2Count;
-          const dx = Math.cos(angle);
-          const dy = Math.sin(angle);
-
-          draw3DPolyline([v3(-dx, -dy, 0), v3(dx, dy, 0)], W, H, "#475569", 1.4, [6, 4]);
-
-          [-1, 1].forEach(dir => {
-            drawEquatorialOval(dir * dx, dir * dy, angle, 0.088, 0.038, W, H, "#0f172a");
-          });
-        }
-      }
-
-      // 6. Central Blackish Polygon & Nested Improper-Rotation Symbology
-      const sides = pg.polySides || 0;
-      const innerSides = pg.innerSides || 0;
-      const getPolyOffset = (s) => (s === 3 ? Math.PI / 2 : s === 4 ? Math.PI / 4 : 0);
-
-      if (sides === 2 && innerSides === 0) {
-        drawEquatorialOval(0, 0, Math.PI / 2, 0.095, 0.044, W, H, "#0f172a");
-      } else if (sides >= 3) {
-        if (innerSides > 0) {
-          drawRegularPolygon(sides, 0.35, getPolyOffset(sides), W, H, "rgba(15, 23, 42, 0.08)", "#0f172a", 2.0);
-          if (innerSides === 2) {
-            drawEquatorialOval(0, 0, Math.PI / 2, 0.11, 0.05, W, H, "#0f172a");
-          } else {
-            drawRegularPolygon(innerSides, 0.18, getPolyOffset(innerSides), W, H, "#0f172a", "#0f172a", 1.6);
-          }
-        } else {
-          drawRegularPolygon(sides, 0.33, getPolyOffset(sides), W, H, "rgba(15, 23, 42, 0.24)", "#0f172a", 2.2);
-        }
-      }
-
-      // 7. Data Points, Pole-to-Pole Stereographic Rays & Equatorial Projections
-      const indexedPts = state.points.map((pt, idx) => {
-        const eqPt = getStereographicEquatorPoint(pt);
-        const polePt = getTargetPole(pt);
-        return {
-          pt,
-          eqPt,
-          polePt,
-          idx,
-          pr3D: project3D(pt, W, H),
-          prEq: project3D(eqPt, W, H)
-        };
-      });
-      indexedPts.sort((a, b) => b.pr3D.depth - a.pr3D.depth);
-
-      indexedPts.forEach(({ pt, eqPt, polePt, idx, pr3D, prEq }) => {
-        const isLatest = idx === state.points.length - 1;
-        const isUpper = pt.z >= -1e-5;
-
-        if (isUpper) {
-          ctx.beginPath();
-          ctx.arc(prEq.sx, prEq.sy, 5.2, 0, Math.PI * 2);
-          ctx.fillStyle = COLOR_UPPER;
-          ctx.fill();
-        } else {
-          ctx.beginPath();
-          ctx.arc(prEq.sx, prEq.sy, 6.8, 0, Math.PI * 2);
-          ctx.strokeStyle = COLOR_LOWER;
-          ctx.lineWidth = 2.2;
-          ctx.stroke();
-        }
-
-        if (!state.isTop2DView) {
-          draw3DPolyline(
-            [pt, eqPt],
-            W,
-            H,
-            isUpper ? "rgba(37, 99, 235, 0.78)" : "rgba(220, 38, 38, 0.78)",
-            isLatest ? 1.8 : 1.3
-          );
-          draw3DPolyline(
-            [eqPt, polePt],
-            W,
-            H,
-            isUpper ? "rgba(37, 99, 235, 0.36)" : "rgba(220, 38, 38, 0.36)",
-            1.1,
-            [4, 4]
-          );
-
-          const rad = isLatest ? 7.6 : 6.4;
-          draw3DShadedSphere(pr3D.sx, pr3D.sy, rad, isUpper, isLatest && state.mode === "manual");
-        }
-      });
-
-      // 8. Active Operation Animations
-      updateAndDrawAnimations(now, W, H);
-
-      // 9. Outer Sphere Rim (3D mode only)
-      if (!state.isTop2DView) {
-        ctx.beginPath();
-        ctx.arc(centerPr.sx, centerPr.sy, centerPr.baseRadius, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(100, 116, 139, 0.45)";
-        ctx.lineWidth = 1.4;
-        ctx.stroke();
-      }
-
-      ctx.restore();
-    }
-
-    function updateAndDrawAnimations(now, W, H) {
-      if (activeAnimations.length === 0) return;
-
-      for (let i = activeAnimations.length - 1; i >= 0; i--) {
-        const anim = activeAnimations[i];
-        const elapsed = now - anim.startTime;
-        const rawT = Math.min(elapsed / anim.duration, 1);
-        const t = rawT < 0.5 ? 4 * rawT * rawT * rawT : 1 - Math.pow(-2 * rawT + 2, 3) / 2;
-
-        const curPos = anim.transformFn(anim.sourcePoint, t);
-        const eqPos = getStereographicEquatorPoint(curPos);
-        const polePos = getTargetPole(curPos);
-        const isUpper = curPos.z >= -1e-5;
-        const curColor = isUpper ? COLOR_UPPER : COLOR_LOWER;
-        anim.trailPts.push(v3Clone(curPos));
-
-        if (!state.isTop2DView) {
-          const blinkAlpha = 0.25 + 0.75 * Math.abs(Math.sin(now * 0.015));
-		  const trailColor = `rgba(220, 38, 38, ${blinkAlpha.toFixed(2)})`;
-		  draw3DPolyline(anim.trailPts, W, H, trailColor, 2.4, [5, 4]);
-          draw3DPolyline([curPos, eqPos], W, H, curColor, 1.8);
-          draw3DPolyline([eqPos, polePos], W, H, curColor, 1.1, [4, 4]);
-
-          const pr3 = project3D(curPos, W, H);
-          draw3DShadedSphere(pr3.sx, pr3.sy, 8.2, isUpper, false);
-        }
-
-        const prEq = project3D(eqPos, W, H);
-        if (isUpper) {
-          ctx.beginPath();
-          ctx.arc(prEq.sx, prEq.sy, 5.5, 0, Math.PI * 2);
-          ctx.fillStyle = COLOR_UPPER;
-          ctx.fill();
-        } else {
-          ctx.beginPath();
-          ctx.arc(prEq.sx, prEq.sy, 7.0, 0, Math.PI * 2);
-          ctx.strokeStyle = COLOR_LOWER;
-          ctx.lineWidth = 2.2;
-          ctx.stroke();
-        }
-
-        if (rawT >= 1) {
-          recomputeChainedPoint();
-          activeAnimations.splice(i, 1);
-          renderFilteredOperationButtons();
-
-          const finalPt = state.points[0];
-          const signBadge = finalPt.z >= -1e-5 ? "[+z Blue •]" : "[−z Red ○]";
-          const resOp = findResultantGroupOp();
-          const prodText = resOp && state.opChain.length >= 2 ? ` = ${resOp.label}` : "";
-          document.getElementById("statusOp").textContent = `Sequence: ${anim.chainStr}${prodText} ${signBadge}`;
-          updateStatusReadout();
-        }
-      }
-    }
-
-    // =========================================================================
-    // 4. UI UPDATES & OPERATION CHAINING / UNDO / PRODUCT IDENTIFICATION
-    // =========================================================================
-    function findResultantGroupOp() {
-      if (state.mode !== "manual" || state.opChain.length < 2) return null;
-      const pg = POINT_GROUPS[state.groupKey] || POINT_GROUPS.C2v;
-      const testSeed = v3Norm(v3(0.413, 0.629, 0.658));
-      let chainedRes = testSeed;
-      for (const op of state.opChain) {
-        chainedRes = applyOpInstant(chainedRes, op);
-      }
-      for (const cand of pg.ops) {
-        const candRes = applyOpInstant(testSeed, cand);
-        if (v3Dist(chainedRes, candRes) < 1e-3) {
-          return cand;
-        }
-      }
-      return null;
-    }
-
-    function updateStatusReadout() {
-      document.getElementById("pointCountBadge").textContent = state.points.length;
-      if (state.points.length > 0) {
-        const latest = state.points[state.points.length - 1];
-        const eqPt = getStereographicEquatorPoint(latest);
-        const sph = cartesianToSphericalDeg(latest);
-        const hemiLabel = latest.z >= -1e-5 ? "+z Blue •" : "−z Red ○";
-        document.getElementById("statusCoords").textContent =
-          `Active (${hemiLabel}): θ=${sph.theta.toFixed(1)}°, φ=${sph.phi.toFixed(1)}° | Stereogram: (${eqPt.x.toFixed(2)}, ${eqPt.y.toFixed(2)})`;
-      }
-    }
-
-    function updateModeButtonsUI() {
-      const btnFull = document.getElementById("btnShowFullGroup");
-      const btnSingle = document.getElementById("btnStartSingleSeed");
-      btnFull.className = state.mode === "group" ? "mode-btn active" : "mode-btn";
-      btnSingle.className = state.mode === "manual" ? "mode-btn flex-1 active" : "mode-btn flex-1";
-
-      const btnOblique = document.getElementById("btnViewOblique");
-      const btnTop = document.getElementById("btnViewTop");
-      const btnSide = document.getElementById("btnViewSide");
-      btnOblique.className = "cam-btn";
-      btnTop.className = "cam-btn";
-      btnSide.className = "cam-btn";
-      if (state.isTop2DView) {
-        btnTop.className = "cam-btn active-blue";
-      }
-    }
-
-    function setTop2DViewMode(enabled) {
-      state.isTop2DView = enabled;
-      updateModeButtonsUI();
-    }
-
-    function renderFilteredOperationButtons() {
-      const pg = POINT_GROUPS[state.groupKey] || POINT_GROUPS.C2v;
-      const containerEl = document.getElementById("dynamicOpsContainer");
-      document.getElementById("activeGroupOpsTitle").textContent = pg.name;
-      document.getElementById("pgPolygonBadge").textContent = pg.polyLabel;
-
-      const resultantOp = findResultantGroupOp();
-
-      containerEl.innerHTML = "";
-      pg.ops.forEach((opObj) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.textContent = opObj.label;
-
-        const isActiveInChain = state.mode === "manual" && state.opChain.some(o => o.id === opObj.id);
-        const isResultProduct = resultantOp && resultantOp.id === opObj.id;
-
-        let cls = "op-btn mono";
-        if (opObj.flipsZ) cls += " flips-z";
-        if (isResultProduct) cls += " result-op";
-        else if (isActiveInChain) cls += " active-chain";
-        btn.className = cls;
-
-        btn.addEventListener("click", () => {
-          toggleOrChainOperation(opObj);
-        });
-        containerEl.appendChild(btn);
-      });
-    }
-
-    function refreshGroupMode() {
-      state.mode = "group";
-      state.opChain = [];
-      const pg = POINT_GROUPS[state.groupKey];
-      document.getElementById("pgDescription").innerHTML =
-        `<strong>${pg.name}</strong> (Order <em>h</em> = ${pg.order}): ${pg.desc}`;
-      const seed = sphericalToCartesian(state.seedTheta, state.seedPhi);
-      state.points = generateGroupOrbit(state.groupKey, seed);
-      document.getElementById("statusOp").textContent =
-        `Point Group ${pg.name} — ${pg.polyLabel} (${state.points.length} poles)`;
-      updateModeButtonsUI();
-      renderFilteredOperationButtons();
-      updateStatusReadout();
-    }
-
-    function recomputeChainedPoint() {
-      let cur = sphericalToCartesian(state.seedTheta, state.seedPhi);
-      for (const op of state.opChain) {
-        cur = applyOpInstant(cur, op);
-      }
-      state.points = [cur];
-      updateStatusReadout();
-    }
-
-    function toggleOrChainOperation(opObj) {
-      if (state.mode === "group") {
-        state.mode = "manual";
-        state.opChain = [];
-        state.points = [sphericalToCartesian(state.seedTheta, state.seedPhi)];
-        updateModeButtonsUI();
-      }
-
-      const existingIdx = state.opChain.findIndex(o => o.id === opObj.id);
-      if (existingIdx !== -1) {
-        state.opChain.splice(existingIdx, 1);
-        recomputeChainedPoint();
-        renderFilteredOperationButtons();
-
-        const chainStr = state.opChain.length > 0
-          ? state.opChain.map(o => o.label).join(" → ")
-          : "Seed Point Only";
-        document.getElementById("statusOp").textContent = `Undid ${opObj.label} | Active: ${chainStr}`;
-        return;
-      }
-
-      state.opChain.push(opObj);
-      renderFilteredOperationButtons();
-
-      const startPt = state.points.length > 0
-        ? v3Clone(state.points[state.points.length - 1])
-        : sphericalToCartesian(state.seedTheta, state.seedPhi);
-
-      let transformFn = null;
-      switch (opObj.type) {
-        case "identity":
-          transformFn = (v) => v3Clone(v);
-          break;
-        case "rotZ":
-          transformFn = (v, t) => v3Norm(rotateZ(v, opObj.angle * t));
-          break;
-        case "rotXY": {
-          const axis = v3(Math.cos(opObj.axisAngle), Math.sin(opObj.axisAngle), 0);
-          transformFn = (v, t) => v3Norm(rotateAroundAxis(v, axis, Math.PI * t));
-          break;
-        }
-        case "mirrorH":
-          transformFn = (v, t) => v3Norm(v3Lerp(v, v3(v.x, v.y, -v.z), t));
-          break;
-        case "mirrorV": {
-          const nx = -Math.sin(opObj.planeAngle);
-          const ny = Math.cos(opObj.planeAngle);
-          transformFn = (v, t) => {
-            const dot = v.x * nx + v.y * ny;
-            const target = v3(v.x - 2 * dot * nx, v.y - 2 * dot * ny, v.z);
-            return v3Norm(v3Lerp(v, target, t));
-          };
-          break;
-        }
-        case "inversion":
-          transformFn = (v, t) => {
-            let axis = v3(-v.y, v.x, 0);
-            if (v3Len(axis) < 1e-4) axis = v3(1, 0, 0);
-            return v3Norm(rotateAroundAxis(v, axis, Math.PI * t));
-          };
-          break;
-        case "improperZ":
-          transformFn = (v, t) => {
-            if (!opObj.flipsZ) return v3Norm(rotateZ(v, opObj.angle * t));
-            if (t < 0.6) return v3Norm(rotateZ(v, opObj.angle * (t / 0.6)));
-            const r = rotateZ(v, opObj.angle);
-            return v3Norm(v3Lerp(r, v3(r.x, r.y, -r.z), (t - 0.6) / 0.4));
-          };
-          break;
-      }
-
-      if (!transformFn) return;
-      const chainStr = state.opChain.map(o => o.label).join(" → ");
-      activeAnimations.push({
-        startTime: performance.now(),
-        duration: 1000,
-        sourcePoint: startPt,
-        transformFn,
-        trailPts: [],
-        chainStr,
-        opLabel: opObj.label
-      });
-      document.getElementById("statusOp").textContent = `Applying: ${chainStr}...`;
-    }
-
-    // =========================================================================
-    // 5. MOUSE DRAG ORBIT, ZOOM & CLICK-TO-PLACE EVENTS
-    // =========================================================================
-    let isDragging = false;
-    let dragStart = { x: 0, y: 0 };
-    let pointerDownPos = { x: 0, y: 0 };
-
-    canvas.addEventListener("pointerdown", (e) => {
-      isDragging = true;
-      dragStart = { x: e.clientX, y: e.clientY };
-      pointerDownPos = { x: e.clientX, y: e.clientY };
-      canvas.setPointerCapture(e.pointerId);
-    });
-
-    canvas.addEventListener("pointermove", (e) => {
-      if (!isDragging) return;
-      const dx = e.clientX - dragStart.x;
-      const dy = e.clientY - dragStart.y;
-      dragStart = { x: e.clientX, y: e.clientY };
-
-      if (Math.hypot(dx, dy) > 1 && state.isTop2DView) {
-        setTop2DViewMode(false);
-        document.getElementById("btnViewOblique").className = "cam-btn active-dark";
-      }
-
-      cameraState.yaw -= dx * 0.0085;
-      cameraState.pitch = clamp(cameraState.pitch + dy * 0.0085, -1.48, 1.48);
-    });
-
-    canvas.addEventListener("pointerup", (e) => {
-      isDragging = false;
-      canvas.releasePointerCapture(e.pointerId);
-
-      if (!state.clickPlaceMode) return;
-      const moveDist = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
-      if (moveDist > 6) return;
-
-      const hitPt = unprojectClickToSphere(e.clientX, e.clientY);
-      if (hitPt) {
-        const sph = cartesianToSphericalDeg(hitPt);
-        state.seedTheta = Math.round(sph.theta);
-        state.seedPhi = Math.round(sph.phi);
-        document.getElementById("sliderTheta").value = state.seedTheta;
-        document.getElementById("sliderPhi").value = state.seedPhi;
-        document.getElementById("lblTheta").textContent = `${state.seedTheta}°`;
-        document.getElementById("lblPhi").textContent = `${state.seedPhi}°`;
-
-        state.mode = "manual";
-        state.opChain = [];
-        state.points = [hitPt];
-        const signStr = hitPt.z >= 0 ? "+z Blue •" : "−z Red ○";
-        document.getElementById("statusOp").textContent =
-          `Placed Seed Point (${signStr}) at θ=${state.seedTheta}°, φ=${state.seedPhi}°`;
-        updateModeButtonsUI();
-        renderFilteredOperationButtons();
-        updateStatusReadout();
-      }
-    });
-
-    canvas.addEventListener("wheel", (e) => {
-      e.preventDefault();
-      cameraState.zoom = clamp(cameraState.zoom * (e.deltaY > 0 ? 0.92 : 1.08), 0.55, 2.2);
-    }, { passive: false });
-
-    // =========================================================================
-    // 6. UI BUTTON LISTENERS
-    // =========================================================================
-    document.getElementById("btnViewOblique").addEventListener("click", () => {
-      setTop2DViewMode(false);
-      document.getElementById("btnViewOblique").className = "cam-btn active-dark";
-      cameraState.yaw = -0.78;
-      cameraState.pitch = 0.56;
-    });
-
-    document.getElementById("btnViewTop").addEventListener("click", () => {
-      cameraState.yaw = -Math.PI / 2;
-      cameraState.pitch = Math.PI / 2;
-      setTop2DViewMode(true);
-    });
-
-    document.getElementById("btnViewSide").addEventListener("click", () => {
-      setTop2DViewMode(false);
-      document.getElementById("btnViewSide").className = "cam-btn active-dark";
-      cameraState.yaw = -Math.PI / 2;
-      cameraState.pitch = 0.03;
-    });
-
-    document.getElementById("btnToggleRevolve").addEventListener("click", () => {
-      state.autoRevolve = !state.autoRevolve;
-      const btn = document.getElementById("btnToggleRevolve");
-      if (state.autoRevolve) {
-        btn.classList.add("active");
-      } else {
-        btn.classList.remove("active");
-        cameraState.worldSpinZ = 0;
-      }
-    });
-
-    document.getElementById("pointGroupSelect").addEventListener("change", (e) => {
-      state.groupKey = e.target.value;
-      refreshGroupMode();
-    });
-
-    document.getElementById("sliderTheta").addEventListener("input", (e) => {
-      state.seedTheta = Number(e.target.value);
-      document.getElementById("lblTheta").textContent = `${state.seedTheta}°`;
-      if (state.mode === "group") refreshGroupMode();
-      else recomputeChainedPoint();
-    });
-
-    document.getElementById("sliderPhi").addEventListener("input", (e) => {
-      state.seedPhi = Number(e.target.value);
-      document.getElementById("lblPhi").textContent = `${state.seedPhi}°`;
-      if (state.mode === "group") refreshGroupMode();
-      else recomputeChainedPoint();
-    });
-
-    document.getElementById("btnClickPlaceMode").addEventListener("click", () => {
-      state.clickPlaceMode = !state.clickPlaceMode;
-      const btn = document.getElementById("btnClickPlaceMode");
-      if (state.clickPlaceMode) {
-        btn.textContent = "Click Sphere: ON";
-        btn.classList.add("on");
-        container.style.cursor = "crosshair";
-      } else {
-        btn.textContent = "Click Sphere: OFF";
-        btn.classList.remove("on");
-        container.style.cursor = "grab";
-      }
-    });
-
-    document.getElementById("btnStartSingleSeed").addEventListener("click", () => {
-      state.mode = "manual";
-      state.opChain = [];
-      const pt = sphericalToCartesian(state.seedTheta, state.seedPhi);
-      state.points = [pt];
-      const signStr = pt.z >= 0 ? "+z Blue •" : "−z Red ○";
-      document.getElementById("statusOp").textContent =
-        `Single Seed (${signStr}) ready — click operations to chain`;
-      updateModeButtonsUI();
-      renderFilteredOperationButtons();
-      updateStatusReadout();
-    });
-
-    document.getElementById("btnShowFullGroup").addEventListener("click", () => {
-      refreshGroupMode();
-    });
-
-    // =========================================================================
-    // 7. ANIMATION LOOP & INITIALIZATION
-    // =========================================================================
-    function animate(now) {
-      requestAnimationFrame(animate);
-      if (state.autoRevolve) {
-        cameraState.worldSpinZ += 0.007;
-      }
-      renderScene(now || performance.now());
-    }
-
-    refreshGroupMode();
-    document.getElementById("btnViewOblique").className = "cam-btn active-dark";
-    animate(performance.now());
-  </script>
-
-  <!-- 8. DISABLE COPY, PRINT, RIGHT-CLICK & SOURCE SHORTCUTS -->
-  <script>
-    document.addEventListener("contextmenu", function (e) {
-      e.preventDefault();
-    });
-    document.addEventListener("copy", function (e) {
-      e.preventDefault();
-    });
-    document.addEventListener("cut", function (e) {
-      e.preventDefault();
-    });
-    window.addEventListener("beforeprint", function (e) {
-      e.preventDefault();
-    });
-    document.addEventListener("keydown", function (e) {
-      const key = e.key.toUpperCase();
-      if (
-        e.key === "F12" ||
-        (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(key)) ||
-        (e.ctrlKey && ["U", "S", "P"].includes(key)) ||
-        (e.metaKey && ["U", "S", "P"].includes(key))
-      ) {
-        e.preventDefault();
-      }
-    });
-  </script>
 </body>
 </html>
